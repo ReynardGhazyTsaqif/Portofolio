@@ -25,7 +25,15 @@ const Technologies = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-4xl font-light text-center mb-16"
+          className="
+        text-4xl
+        sm:text-5xl
+        md:text-6xl
+        font-light
+        mb-12
+        md:mb-16
+        font-poppins
+      "
         >
           Technologies
         </motion.h2>
@@ -35,18 +43,72 @@ const Technologies = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-3 md:grid-cols-6 gap-8"
+          className="
+        grid
+        grid-cols-2
+        sm:grid-cols-3
+        md:grid-cols-4
+        lg:grid-cols-6
+        gap-8
+        md:gap-10
+      "
         >
-          {technologies.map((tech, index) => (
+          {technologies.map((tech) => (
             <motion.div
               key={tech.name}
               variants={itemVariants}
-              className="flex flex-col items-center space-y-3 group"
+              className="
+            flex flex-col items-center
+            space-y-3 md:space-y-4
+            group cursor-pointer
+          "
             >
-              <div className="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center group-hover:shadow-md transition-shadow duration-300">
-                <tech.icon className="w-8 h-8 text-primary" />
+              <div
+                className="
+              w-16 h-16
+              sm:w-20 sm:h-20
+              md:w-24 md:h-24
+
+              flex items-center justify-center
+              rounded-2xl md:rounded-3xl
+
+              transition-all duration-300 ease-out
+
+              group-hover:-translate-y-2
+              group-hover:scale-110
+              group-hover:bg-primary/5
+              group-hover:shadow-xl
+              group-hover:shadow-primary/20
+            "
+              >
+                <tech.icon
+                  className="
+                w-10 h-10
+                sm:w-14 sm:h-14
+                md:w-20 md:h-20
+
+                text-primary
+                transition-all duration-300
+                group-hover:rotate-6
+              "
+                />
               </div>
-              <span className="text-sm text-gray-600 text-center">
+
+              <span
+                className="
+              text-sm
+              sm:text-base
+              md:text-lg
+              lg:text-xl
+
+              text-gray-600
+              text-center
+              font-poppins
+
+              transition-all duration-300
+              group-hover:text-primary
+            "
+              >
                 {tech.name}
               </span>
             </motion.div>

@@ -36,21 +36,21 @@ const Hero = () => {
           >
             <motion.h1
               variants={itemVariants}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight"
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight  font-poppins"
             >
               {personal.name}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-lg lg:text-xl text-gray-600"
+              className="text-xl lg:text-2xl text-gray-600 font-poppins"
             >
               {personal.role}
             </motion.p>
 
             <motion.p
               variants={itemVariants}
-              className="text-gray-600 max-w-sm"
+              className="text-gray-600 max-w-sm lg:max-w-md font-poppins"
             >
               {personal.description}
             </motion.p>
@@ -63,7 +63,7 @@ const Hero = () => {
                 href="/CV_Reynard_Ghazy_Tsaqif.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-dark w-full sm:w-[180px] text-center"
+                className="btn-dark w-full sm:w-[180px] text-center  font-poppins"
               >
                 View Resume
               </a>
@@ -73,7 +73,7 @@ const Hero = () => {
                 smooth={true}
                 offset={-80}
                 duration={500}
-                className="btn-outline w-full sm:w-[180px] text-center"
+                className="btn-outline w-full sm:w-[180px] text-center  font-poppins"
               >
                 Get in Touch
               </Link>
@@ -121,7 +121,7 @@ const Hero = () => {
           transition={{ delay: 1.5, duration: 0.8 }}
           className="
     absolute
-    bottom-6
+    bottom-10
     left-1/2
     -translate-x-1/2
 

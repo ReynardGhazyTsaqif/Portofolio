@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
-import { FaDownload } from "react-icons/fa";
-import { bio, stats, personal } from "../data/personal";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { bio, stats } from "../data/personal";
+import ReyAbout from "../assets/ReyAbout.jpg";
 
 const AboutMe = () => {
   const containerVariants = {
@@ -18,21 +19,98 @@ const AboutMe = () => {
     visible: { opacity: 1, y: 0 },
   };
 
+  const paragraphRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: paragraphRef,
+    offset: ["start 0.8", "start 0.3"],
+  });
+
   return (
-    <section id="about" className="section bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section id="about" className="section bg-white ">
+      <div className="max-w-6xl mx-auto px-6 lg:px-12">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-4xl font-light text-center mb-16"
+          className="
+            text-4xl lg:text-5xl
+            font-light
+            text-center
+            
+            font-poppins
+          "
         >
-          About Me
+          About
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left side - Bio */}
+        <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-16 items-center">
+          {/* Left Side - Photo */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative flex justify-center"
+          >
+            {/* Placeholder Photo */}
+            <img
+              src={ReyAbout}
+              alt="Profile"
+              className="
+    w-[280px]
+    sm:w-[340px]
+    lg:w-[400px]
+    object-contain
+    transition-transform duration-500
+  "
+            />
+
+            {/* Floating Stats */}
+            <div
+              className="
+                absolute
+                top-8
+                -right-2 lg:-right-8
+
+                flex flex-col
+                gap-4
+              "
+            >
+              {stats.slice(0, 3).map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{
+                    delay: index * 0.2,
+                    duration: 0.5,
+                  }}
+                  viewport={{ once: true }}
+                  className="
+                    bg-white/80
+                    backdrop-blur-md
+                    border border-gray-100
+                    shadow-lg
+                    rounded-2xl
+                    px-5 py-3
+                    min-w-[140px]
+                  "
+                >
+                  <div className="text-xl font-bold text-primary font-poppins">
+                    {stat.number || stat.text}
+                  </div>
+
+                  <div className="text-sm text-gray-500 font-poppins">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Side - Bio */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -41,55 +119,37 @@ const AboutMe = () => {
             className="space-y-6"
           >
             <motion.p
-              variants={itemVariants}
-              className="text-lg font-medium border-l-4 border-primary pl-4"
+              ref={paragraphRef}
+              className="
+    leading-relaxed
+    text-lg
+    lg:text-3xl
+    font-poppins
+    max-w-xl
+    flex flex-wrap
+  "
             >
-              {bio.intro}
+              {bio.description.split(" ").map((word, index) => {
+                const start = index / bio.description.split(" ").length;
+                const end = start + 0.5;
+
+                const opacity = useTransform(
+                  scrollYProgress,
+                  [start, end],
+                  [0.2, 1],
+                );
+
+                return (
+                  <motion.span
+                    key={index}
+                    style={{ opacity }}
+                    className="mr-2 text-black"
+                  >
+                    {word}
+                  </motion.span>
+                );
+              })}
             </motion.p>
-
-            {bio.paragraphs.map((paragraph, index) => (
-              <motion.p
-                key={index}
-                variants={itemVariants}
-                className="text-gray-600 leading-relaxed"
-              >
-                {paragraph}
-              </motion.p>
-            ))}
-
-            <motion.a
-              variants={itemVariants}
-              href={personal.resume}
-              className="inline-flex items-center space-x-2 btn-outline"
-            >
-              <FaDownload />
-              <span>Download Resume</span>
-            </motion.a>
-          </motion.div>
-
-          {/* Right side - Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 gap-6"
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
-                className="bg-gray-50 p-6 rounded-lg text-center"
-              >
-                <div className="text-3xl font-bold text-primary mb-2">
-                  {stat.number || stat.text}
-                </div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </div>

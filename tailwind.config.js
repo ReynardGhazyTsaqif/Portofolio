@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         sans: ["DM Sans", "sans-serif"],
         script: ["Caveat", "cursive"],
+        poppins: ["Poppins", "sans-serif"],
       },
       colors: {
         primary: "#1a1a1a",
