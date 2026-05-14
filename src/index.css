@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Caveat:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -41,6 +42,6 @@
   }
 
   .btn-pill {
-    @apply px-8 py-3 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300;
+    @apply px-8 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:scale-110 hover:text-white transition-all duration-300;
   }
 }

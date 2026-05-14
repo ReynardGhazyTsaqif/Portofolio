@@ -14,10 +14,10 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className="sticky top-0 z-50 bg-white backdrop-blur-sm border-b border-gray-100"
+      className="sticky top-0 z-50 bg-white backdrop-blur-sm  border-gray-100"
     >
-      <div className="max-w-6xl mx-auto px-12 py-4">
-        <div className="flex justify-center">
+      <div className="max-w-6xl mx-auto px-12 h-16">
+        <div className="flex justify-center items-end h-full">
           <ul className="flex space-x-8">
             {navItems.map((item, index) => (
               <motion.li
@@ -31,12 +31,14 @@ const Navbar = () => {
                   smooth={true}
                   offset={-80}
                   duration={500}
-                  className="text-primary hover:text-accent transition-colors duration-300 cursor-pointer relative group"
-                  activeClass="text-accent"
+                  className="text-xl hover:text-accent transition-colors duration-300 cursor-pointer relative group"
+                  activeClass="active"
                   spy={true}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                  <span
+                    className="absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300 w-0 group-hover:w-full group-[.active]:w-full"
+                  ></span>
                 </Link>
               </motion.li>
             ))}

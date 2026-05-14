@@ -4,11 +4,13 @@ import {
   SiTailwindcss,
   SiJavascript,
   SiPhp,
-  SiNestjs,
   SiPython,
   SiTensorflow,
   SiMysql,
   SiGit,
+  SiScikitlearn,
+  SiOpencv,
+  SiPandas,
 } from "react-icons/si";
 
 export const technologies = [
@@ -17,9 +19,11 @@ export const technologies = [
   { name: "Tailwind CSS", icon: SiTailwindcss },
   { name: "JavaScript", icon: SiJavascript },
   { name: "PHP", icon: SiPhp },
-  { name: "NestJS", icon: SiNestjs },
   { name: "Python", icon: SiPython },
   { name: "TensorFlow", icon: SiTensorflow },
+  { name: "Scikit-learn", icon: SiScikitlearn },
+  { name: "OpenCV", icon: SiOpencv },
+  { name: "Pandas", icon: SiPandas },
   { name: "MySQL", icon: SiMysql },
   { name: "Git", icon: SiGit },
 ];

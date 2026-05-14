@@ -3,7 +3,7 @@ import { personal } from "../data/personal";
 
 const GateScreen = ({ onEnter }) => {
   return (
-    <div className="min-h-screen bg-[#f0efeb] flex items-center justify-center">
+    <div className="min-h-screen bg-[#fcfcfa] flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -11,7 +11,7 @@ const GateScreen = ({ onEnter }) => {
         className="text-center"
       >
         <motion.h1
-          className="text-7xl font-script text-accent mb-4"
+          className="text-9xl font-script text-accent mb-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
@@ -19,7 +19,7 @@ const GateScreen = ({ onEnter }) => {
           {personal.name}
         </motion.h1>
         <motion.p
-          className="text-lg text-gray-600 mb-8"
+          className="text-xl text-gray-800 mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
