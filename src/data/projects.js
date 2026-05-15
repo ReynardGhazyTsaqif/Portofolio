@@ -1,23 +1,27 @@
 export const projects = [
   {
     name: "UNAND Co-Workspace (UCW) App",
-    description:
-      "Sistem manajemen kedai kopi berbasis QR dengan pelacakan pesanan real-time dan analisis menu berbasis AI.",
-    tags: ["React 18", "Inertia.js", "Laravel Reverb"],
+    role:"Front-End",
+    year:"2026",
+    services: ["React 18", "Inertia.js", "Laravel Reverb"],
     github: "https://github.com/ReynardGhazyTsaqif",
+    image:"src/assets/ReyAbout.jpg"
   },
   {
-    name: "Open Recruitment Website - Neo Telemetri",
-    description:
-      "Platform rekrutmen digital dengan fitur modul ujian online, manajemen dokumen, dan integrasi pembayaran QRIS.",
-    tags: ["React.js", "Tailwind CSS", "NestJS"],
+    name: "UNAND Co-Workspace (UCW) App",
+    role:"Front-End",
+    year:"2026",
+    services: ["React 18", "Inertia.js", "Laravel Reverb"],
     github: "https://github.com/ReynardGhazyTsaqif",
+    image:"src/assets/ReyAbout.jpg"
   },
   {
-    name: "Indonesian Spice Image Classification",
-    description:
-      "Pengembangan model Deep Learning (MobileNetV2) untuk mengklasifikasi 31 jenis rempah-rempah Indonesia.",
-    tags: ["Python", "TensorFlow", "Keras"],
+    name: "UNAND Co-Workspace (UCW) App",
+    role:"Front-End",
+    year:"2026",
+    services: ["React 18", "Inertia.js", "Laravel Reverb"],
     github: "https://github.com/ReynardGhazyTsaqif",
+    image:"src/assets/ReyAbout.jpg"
   },
+
 ];
