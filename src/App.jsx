@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import GateScreen from "./components/GateScreen";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -10,19 +10,40 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
-function App() {
-  const [hasEntered, setHasEntered] = useState(false);
+const portfolioVariants = {
+  hidden: {
+    opacity: 0,
+    y: 80,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+      delay: 0.3, // kecilin delay
+    },
+  },
+};
 
-  const handleEnter = () => {
-    setHasEntered(true);
-  };
+function App() {
+  const [entered, setEntered] = useState(false);
 
   return (
     <AnimatePresence mode="wait">
-      {!hasEntered ? (
-        <GateScreen key="gate" onEnter={handleEnter} />
+      {!entered ? (
+        <GateScreen key="gate" onEnter={() => setEntered(true)} />
       ) : (
-        <div key="portfolio" className="min-h-screen">
+        <motion.div
+          key="portfolio"
+          initial={{ opacity: 0, y: 120 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 1.6,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="min-h-screen"
+        >
           <Navbar />
           <main>
             <Hero />
@@ -33,7 +54,7 @@ function App() {
             <Contact />
           </main>
           <Footer />
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

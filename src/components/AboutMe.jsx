@@ -14,11 +14,6 @@ const AboutMe = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   const paragraphRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -27,25 +22,20 @@ const AboutMe = () => {
   });
 
   return (
-    <section id="about" className="section bg-white ">
-      <div className="max-w-6xl mx-auto px-6 lg:px-12">
+    <section id="about" className="section bg-white overflow-hidden">
+      <div className="max-w-6xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="
-            text-4xl lg:text-5xl
-            font-light
-            text-center
-            
-            font-poppins
-          "
+          className="section-heading text-center"
         >
           About
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-10 lg:gap-16 items-center">
+
           {/* Left Side - Photo */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -53,29 +43,26 @@ const AboutMe = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="relative flex justify-center"
+            
           >
-            {/* Placeholder Photo */}
             <img
               src={ReyAbout}
               alt="Profile"
               className="
-    w-[280px]
-    sm:w-[340px]
-    lg:w-[400px]
-    object-contain
-    transition-transform duration-500
-  "
+                w-[240px]
+                sm:w-[300px]
+                lg:w-[380px]
+                object-contain
+                transition-transform duration-500
+              "
             />
 
             {/* Floating Stats */}
             <div
               className="
-                absolute
-                top-8
-                -right-2 lg:-right-8
-
+                absolute top-4 right-0  lg:-right-6
                 flex flex-col
-                gap-4
+                gap-3
               "
             >
               {stats.slice(0, 3).map((stat, index) => (
@@ -83,26 +70,22 @@ const AboutMe = () => {
                   key={index}
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{
-                    delay: index * 0.2,
-                    duration: 0.5,
-                  }}
+                  transition={{ delay: index * 0.2, duration: 0.5 }}
                   viewport={{ once: true }}
                   className="
-                    bg-white/80
+                    bg-white/90
                     backdrop-blur-md
                     border border-gray-100
                     shadow-lg
                     rounded-2xl
-                    px-5 py-3
-                    min-w-[140px]
+                    px-3 py-2
+                    w-[110px] sm:w-[130px]
                   "
                 >
-                  <div className="text-xl font-bold text-primary font-poppins">
+                  <div className="text-lg sm:text-xl font-bold text-primary font-poppins">
                     {stat.number || stat.text}
                   </div>
-
-                  <div className="text-sm text-gray-500 font-poppins">
+                  <div className="text-xs sm:text-sm text-gray-500 font-poppins">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -121,13 +104,12 @@ const AboutMe = () => {
             <motion.p
               ref={paragraphRef}
               className="
-    leading-relaxed
-    text-lg
-    lg:text-3xl
-    font-poppins
-    max-w-xl
-    flex flex-wrap
-  "
+                leading-relaxed
+                text-lg
+                lg:text-2xl
+                font-poppins
+                flex flex-wrap
+              "
             >
               {bio.description.split(" ").map((word, index) => {
                 const start = index / bio.description.split(" ").length;

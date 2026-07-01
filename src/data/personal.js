@@ -8,6 +8,7 @@ export const personal = {
   github: "https://github.com/ReynardGhazyTsaqif",
   linkedin: "linkedin.com/in/reynard-ghazy-tsaqif",
   email: "reynard.gtsaqif@gmail.com",
+  instagram: "https://instagram.com/reynard_ghazy",
   resume: "#",
 };
 
@@ -24,7 +25,7 @@ export const stats = [
 ];
 
 export const emailjs = {
-  serviceId: "YOUR_EMAILJS_SERVICE_ID",
-  templateId: "YOUR_EMAILJS_TEMPLATE_ID",
-  publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
+  serviceId: "service_3bg3eg4",
+  templateId: "template_9os0wik",
+  publicKey: "yrmVVW2Maj42X7trW",
 };

@@ -13,7 +13,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-black text-white px-6 md:px-12 lg:px-20 pt-16 pb-10">
+    <footer className="bg-black text-white px-6 lg:px-12 pt-16 pb-10">
       <div className="max-w-6xl mx-auto">
 
         {/* TOP — Nama besar + tech credit */}
@@ -25,23 +25,22 @@ const Footer = () => {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
           >
-            <h2 className="text-6xl md:text-7xl font-extrabold tracking-[-0.04em] leading-none">
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-[-0.04em] leading-none font-poppins">
               {personal.name.split(" ").slice(0, 2).join(" ")}
               <br />
               {personal.name.split(" ").slice(2).join(" ")}
             </h2>
-            <p className="mt-4 text-xs uppercase tracking-[0.12em] text-white/40 font-medium">
+            <p className="mt-4 text-xs uppercase tracking-[0.12em] text-white/40 font-medium font-poppins">
               {personal.role}
             </p>
           </motion.div>
 
-          {/* Tech credit — subtle, tidak beradu dengan Contact */}
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-xs text-white/25 md:text-right leading-relaxed self-end"
+            className="text-xs text-white/25 md:text-right leading-relaxed self-end font-poppins"
           >
             Designed & built with
             <br />
@@ -52,12 +51,12 @@ const Footer = () => {
         {/* BOTTOM — Copyright + Nav + Back to top */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8">
 
-          <p className="text-xs text-white/25 order-3 md:order-1">
+          <p className="text-xs text-white/25 order-3 md:order-1 font-poppins">
             © {new Date().getFullYear()} {personal.name}. All rights reserved.
           </p>
 
           <nav
-            className="flex gap-6 order-1 md:order-2"
+            className="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 md:order-2"
             aria-label="Footer navigation"
           >
             {footerLinks.map((link) => (
@@ -71,6 +70,7 @@ const Footer = () => {
                   text-[11px] uppercase tracking-[0.1em] font-medium
                   text-white/40 hover:text-white
                   transition-colors duration-200 cursor-pointer
+                  font-poppins
                 "
               >
                 {link.name}
@@ -86,6 +86,7 @@ const Footer = () => {
               text-[11px] uppercase tracking-[0.1em] font-medium
               text-white/40 hover:text-white
               transition-colors duration-200
+              font-poppins
             "
           >
             <span>↑</span>
