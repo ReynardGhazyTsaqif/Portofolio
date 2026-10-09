@@ -24,7 +24,54 @@
     "place": "Danau Maninjau, Sumatera Barat",
     "replay": "Putar ulang",
     "scroll": "Gulir",
-    "placeholder": "Highlight, karya pilihan, pengalaman, dan catatan hadir di tahap 4."
+    "statement": "Banyak orang bisa melatih model. Saya memastikan model itu sampai ke layar pengguna: data yang bersih, model yang andal, dan antarmuka yang benar-benar ingin dipakai orang.",
+    "highlights": {
+      "label": "Singkatnya",
+      "title": "Tiga hal yang perlu",
+      "accent": "diketahui",
+      "items": [
+        {
+          "value": "LIDM 2026",
+          "label": "Finalis nasional",
+          "body": "Lolos ke final nasional Lomba Inovasi Digital Mahasiswa."
+        },
+        {
+          "value": "Bappeda",
+          "label": "AI untuk pemerintahan",
+          "body": "Membangun fitur AI untuk website resmi Bappeda Kota Pariaman."
+        },
+        {
+          "value": "3.97",
+          "label": "IPK dari 4.00",
+          "body": "Informatika Universitas Andalas, fokus AI dan sains data."
+        }
+      ]
+    },
+    "work": {
+      "label": "Karya pilihan",
+      "title": "Yang sudah saya",
+      "accent": "bangun",
+      "intro": "Aplikasi web, machine learning, dan titik di mana keduanya bertemu.",
+      "tools": "Teknologi",
+      "all": "Lihat semua project",
+      "moreTitle": "Ingin lihat lebih banyak?",
+      "moreBody": "Semua project, lengkap dengan studi kasus yang terus ditulis.",
+      "view": "Lihat project",
+      "noImage": "Screenshot segera hadir"
+    },
+    "experience": {
+      "label": "Pengalaman",
+      "title": "Tempat saya",
+      "accent": "berkarya",
+      "all": "Pengalaman dan pendidikan lengkap"
+    },
+    "notes": {
+      "label": "Catatan",
+      "title": "Catatan",
+      "accent": "lapangan",
+      "empty": "Catatan pertama sedang ditulis: tulisan singkat tentang membawa model ke web.",
+      "all": "Semua catatan"
+    }
   },
   "pages": {
     "about": {
@@ -69,5 +116,17 @@
     "title": "Halaman tidak ditemukan",
     "body": "Halaman ini tidak ada atau sudah dipindahkan.",
     "back": "Kembali ke beranda"
+  },
+  "categories": {
+    "web": "Web",
+    "ai": "AI / ML",
+    "data": "Data"
+  },
+  "kinds": {
+    "work": "Kerja",
+    "internship": "Magang",
+    "lab": "Lab",
+    "organisation": "Organisasi",
+    "volunteer": "Relawan"
   }
 }

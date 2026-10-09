@@ -48,6 +48,7 @@
   color-scheme: dark;
 }
 
+/* Font tokens resolve per element: the next/font variables are set on <body>, not :root. */
 @theme inline {
   --color-paper: var(--paper);
   --color-surface: var(--surface);
@@ -70,7 +71,7 @@
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: var(--font-sans);
+    font-family: var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -96,7 +97,7 @@
     padding-inline: var(--gutter);
   }
   .accent {
-    font-family: var(--font-serif);
+    font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
     font-style: italic;
     font-weight: 400;
     letter-spacing: -0.01em;

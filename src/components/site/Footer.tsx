@@ -10,7 +10,8 @@ export async function Footer() {
     <footer className="gutter border-t border-line bg-surface pt-[clamp(72px,10vw,140px)] pb-28 md:pb-10">
       <p className="max-w-[46ch] text-muted">{dict.footer.lead}</p>
       <CopyEmail className="mt-4" />
-      <div className="mt-[clamp(56px,8vw,110px)] flex flex-wrap items-end justify-between gap-6 border-t border-line pt-6 text-[14px] text-muted">
+      {/* right padding keeps the row clear of the floating CV button */}
+      <div className="mt-[clamp(56px,8vw,110px)] flex flex-wrap items-end justify-between gap-6 border-t border-line pt-6 text-[14px] text-muted md:pr-44">
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
           {site.socials.map((s) => (
             <li key={s.label}>

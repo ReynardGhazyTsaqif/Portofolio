@@ -24,7 +24,54 @@
     "place": "Lake Maninjau, West Sumatra",
     "replay": "Replay",
     "scroll": "Scroll",
-    "placeholder": "Highlights, selected work, experience and notes arrive in phase 4."
+    "statement": "Many people can train a model. I make sure it reaches the user's screen: clean data, a model that holds up, and an interface people actually want to use.",
+    "highlights": {
+      "label": "In short",
+      "title": "Three things worth",
+      "accent": "knowing",
+      "items": [
+        {
+          "value": "LIDM 2026",
+          "label": "National finalist",
+          "body": "Reached the national finals of Lomba Inovasi Digital Mahasiswa."
+        },
+        {
+          "value": "Bappeda",
+          "label": "AI for government",
+          "body": "Built AI features for the official website of Bappeda Kota Pariaman."
+        },
+        {
+          "value": "3.97",
+          "label": "GPA out of 4.00",
+          "body": "Informatics at Universitas Andalas, focused on AI and data science."
+        }
+      ]
+    },
+    "work": {
+      "label": "Selected work",
+      "title": "Things I've",
+      "accent": "built",
+      "intro": "Web apps, machine learning and the places where they meet.",
+      "tools": "Tools",
+      "all": "See all projects",
+      "moreTitle": "Want to see more?",
+      "moreBody": "Every project, with case studies as they're written.",
+      "view": "View project",
+      "noImage": "Screenshot coming soon"
+    },
+    "experience": {
+      "label": "Experience",
+      "title": "Where I've been",
+      "accent": "working",
+      "all": "Full experience and education"
+    },
+    "notes": {
+      "label": "Notes",
+      "title": "Field",
+      "accent": "notes",
+      "empty": "The first notes are on the way: short write-ups on shipping models to the web.",
+      "all": "All notes"
+    }
   },
   "pages": {
     "about": {
@@ -69,5 +116,17 @@
     "title": "Page not found",
     "body": "This page doesn't exist or has moved.",
     "back": "Back to home"
+  },
+  "categories": {
+    "web": "Web",
+    "ai": "AI / ML",
+    "data": "Data"
+  },
+  "kinds": {
+    "work": "Work",
+    "internship": "Internship",
+    "lab": "Lab",
+    "organisation": "Organisation",
+    "volunteer": "Volunteer"
   }
 }

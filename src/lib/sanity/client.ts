@@ -18,3 +18,9 @@ export function imageUrl(image: SanityImage | null | undefined, width: number): 
   if (!image?.asset?._ref) return "";
   return builder.image(image).width(width).fit("max").auto("format").url();
 }
+
+/** Intrinsic size from the asset id ("image-<hash>-1600x900-png"), for next/image width/height. */
+export function imageSize(image: SanityImage | null | undefined): { width: number; height: number } | null {
+  const m = image?.asset?._ref?.match(/-(\d+)x(\d+)-/);
+  return m ? { width: Number(m[1]), height: Number(m[2]) } : null;
+}
