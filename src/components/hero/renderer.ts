@@ -45,6 +45,10 @@ const float W = ${WORLD.w.toFixed(1)};
 const float H = ${WORLD.h.toFixed(1)};
 const float HORIZON = ${WORLD.horizon.toFixed(1)};
 
+float shoreY(float x) {
+  return HORIZON + 9.0 * sin(x * 0.0061 + 1.1) + 5.0 * sin(x * 0.0173 + 2.3) + 2.5 * sin(x * 0.0419 + 0.4);
+}
+
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
   vec2 i = floor(p), f = fract(p);
@@ -73,19 +77,22 @@ vec3 sky(vec2 p, float aa) {
     vec3 shade = uRidge[i] * (1.0 - 0.07 * clamp((p.y - y) / 140.0, 0.0, 1.0));
     col = mix(col, shade, a);
     if (i == 1) {
-      float band = exp(-pow((p.y - (HORIZON - 52.0 + uMisc[1].w)) / 24.0, 2.0));
+      float band = exp(-pow((p.y - (HORIZON - 58.0 + uMisc[1].w)) / 26.0, 2.0));
       col = mix(col, uMist, 0.5 * band * (0.7 + 0.3 * sin(p.x * 0.004 + uTime * 0.12)));
     }
   }
-  // haze where the mountains meet the water
-  col = mix(col, uMist, 0.35 * exp(-(HORIZON - p.y) / 10.0));
+  // soft haze settling on the shore
+  col = mix(col, uMist, 0.32 * exp(-max(shoreY(p.x) - p.y, 0.0) / 16.0));
   return col;
 }
 
-vec3 water(vec2 p, float aa) {
+vec3 water(vec2 p, float aa, float shore) {
   float t = clamp((p.y - HORIZON) / (H - HORIZON), 0.0, 1.0);
+  float below = max(p.y - shore, 0.0);
   vec3 col = mix(uWaterTop, uWaterLow, smoothstep(0.0, 1.0, t));
-  col = mix(col, uMist, 0.45 * exp(-(p.y - HORIZON) / 7.0));
+  // the dark foot of the hills blurred into the water, then a thin pale line of mist on the surface
+  col = mix(col, uRidge[3] * 0.92, 0.55 * exp(-below / 18.0) * (0.85 + 0.15 * sin(p.x * 0.02 + uTime * 0.4)));
+  col = mix(col, uMist, 0.35 * exp(-below / 4.0));
 
   // slow ripple bands that stretch out toward the horizon
   float band = noise(vec2(p.x * 0.0035 + uTime * 0.015, p.y * (0.05 + 0.1 * t) - uTime * 0.22));
@@ -149,7 +156,10 @@ vec3 rocks(vec2 p, vec3 col, float aa) {
 void main() {
   vec2 p = uOrigin + vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y) / uScale;
   float aa = 0.9 / uScale;
-  vec3 col = p.y < HORIZON ? sky(p, aa) : water(p, aa);
+  float shore = shoreY(p.x);
+  // blend land into water over a couple of pixels instead of a hard cut
+  float w = smoothstep(shore - aa * 1.5, shore + aa * 1.5, p.y);
+  vec3 col = w <= 0.0 ? sky(p, aa) : w >= 1.0 ? water(p, aa, shore) : mix(sky(p, aa), water(p, aa, shore), w);
   col = rocks(p, col, aa);
   col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 255.0;   // dither long gradients
   gl_FragColor = vec4(col, 1.0);

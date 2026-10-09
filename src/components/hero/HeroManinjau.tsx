@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { handwriting } from "./handwriting";
 import { HeroRenderer } from "./renderer";
-import { NAME, RIDGES, ROCKS, ROCK_DEPTH, SUN, WORLD, paletteRGB, ridgeY, rockRadius, viewFor, type Palette } from "./scene";
+import { NAME, RIDGES, ROCKS, ROCK_DEPTH, SUN, WORLD, paletteRGB, ridgeY, rockRadius, shoreY, viewFor, type Palette } from "./scene";
 
 type Props = { oneLiner: string; eyebrow: string; place: string; replay: string; scroll: string };
 
@@ -19,8 +19,13 @@ let introPlayed = false;
 const RIDGE_PATHS = RIDGES.map((r) => {
   const pts: string[] = [];
   for (let x = -20; x <= WORLD.w + 20; x += 10) pts.push(`${x} ${ridgeY(r, x).toFixed(1)}`);
-  return `M-20 ${WORLD.horizon + 2} L${pts.join(" L")} L${WORLD.w + 20} ${WORLD.horizon + 2}Z`;
+  return `M-20 ${WORLD.horizon + 40} L${pts.join(" L")} L${WORLD.w + 20} ${WORLD.horizon + 40}Z`;
 });
+const WATER_PATH = (() => {
+  const pts: string[] = [];
+  for (let x = -20; x <= WORLD.w + 20; x += 10) pts.push(`${x} ${shoreY(x).toFixed(1)}`);
+  return `M-20 ${WORLD.h + 20} L${pts.join(" L")} L${WORLD.w + 20} ${WORLD.h + 20}Z`;
+})();
 const ROCK_PATHS = ROCKS.map((r) => {
   const pts: string[] = [];
   for (let i = 0; i <= 96; i++) {
@@ -146,6 +151,8 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
           paletteFor = st.night;
         }
         const dpr = renderer.width / section.clientWidth;
+        // tall phone screens show little of the shore, so the rocks rise a little to stay in frame
+        const lift = Math.min(130, Math.max(0, (1 - section.clientWidth / section.clientHeight) * 190));
         renderer.render({
           time,
           scale: view.scale * dpr,
@@ -154,7 +161,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
           night: st.night,
           palette,
           ridgeOffsets: RIDGES.map((r) => ({ x: -st.mx * r.depth * 30, y: -st.scroll * r.depth * 190 })),
-          rockOffset: { x: -st.mx * ROCK_DEPTH * 30, y: -st.scroll * ROCK_DEPTH * 190 },
+          rockOffset: { x: -st.mx * ROCK_DEPTH * 30, y: -lift - st.scroll * ROCK_DEPTH * 190 },
           sun: { x: SUN.x - st.mx * 4, y: SUN.y + st.scroll * 110, r: SUN.r },
           nameRect: [nameRect[0] + nx, nameRect[1] + ny, nameRect[2], nameRect[3]],
           nameAlpha: 0.55 * fade,
@@ -233,7 +240,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         <rect x="-20" y="-20" width={WORLD.w + 40} height={WORLD.horizon + 40} fill="url(#hero-sky)" />
         <circle cx={SUN.x} cy={SUN.y} r={SUN.r} style={{ fill: "var(--hero-sun)" }} />
         {RIDGE_PATHS.map((d, i) => <path key={i} d={d} style={{ fill: `var(--hero-r${i + 1})` }} />)}
-        <rect x="-20" y={WORLD.horizon} width={WORLD.w + 40} height={WORLD.h - WORLD.horizon + 20} fill="url(#hero-water)" />
+        <path d={WATER_PATH} fill="url(#hero-water)" />
         {ROCK_PATHS.map((d, i) => <path key={i} d={d} style={{ fill: "var(--hero-rock)" }} />)}
       </svg>
 
