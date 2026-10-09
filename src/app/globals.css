@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Palette: Maninjau morning. Cream paper, white surfaces, green-black ink, one moss accent. */
+:root {
+  --paper: #f2ede3;
+  --surface: #fcfbf7;
+  --ink: #1d221b;
+  --muted: #676b60;
+  --line: #dcd4c4;
+  --moss: #46663f;
+  --on-moss: #fcfbf7;
+  --gutter: clamp(16px, 4vw, 64px);
+  color-scheme: light;
+}
+
+/* Lake at dusk: deep green-black water, warm cream text, the moss lifted so it reads on dark. */
+.dark {
+  --paper: #121511;
+  --surface: #1a1e18;
+  --ink: #ebe6da;
+  --muted: #9fa496;
+  --line: #2d3329;
+  --moss: #9dbf8f;
+  --on-moss: #121511;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-moss: var(--moss);
+  --color-on-moss: var(--on-moss);
+  --font-sans: var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    transition: background-color 0.5s var(--ease-out-expo), color 0.5s var(--ease-out-expo);
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--moss);
+    color: var(--on-moss);
+  }
+  :focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .gutter {
+    padding-inline: var(--gutter);
+  }
+  .accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--moss);
+  }
+}
+
+/* Text waiting for its reveal stays hidden only while JS motion is on; it shows itself after 3s if JS never runs. */
+[data-motion="on"] .reveal-pending {
+  visibility: hidden;
+  animation: reveal-fallback 0s 3s forwards;
+}
+@keyframes reveal-fallback {
+  to { visibility: visible; }
+}
+
+/* SplitText line masks: room above and below so ascenders and descenders aren't clipped. */
+.rv-line-mask {
+  padding-block: 0.06em 0.2em;
+  margin-block: -0.06em -0.2em;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

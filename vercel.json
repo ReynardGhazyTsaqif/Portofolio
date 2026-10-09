@@ -3,7 +3,7 @@
   "services": {
     "app": {
       "root": ".",
-      "framework": "vite"
+      "framework": "nextjs"
     },
     "studio": {
       "root": "studio",
@@ -11,14 +11,35 @@
       "buildCommand": "SANITY_STUDIO_BASEPATH=/studio sanity build dist/studio -y && cp dist/studio/index.html dist/index.html",
       "outputDirectory": "dist",
       "rewrites": [
-        { "source": "/studio", "destination": "/studio/index.html" },
-        { "source": "/studio/(.*)", "destination": "/studio/index.html" }
+        {
+          "source": "/studio",
+          "destination": "/studio/index.html"
+        },
+        {
+          "source": "/studio/(.*)",
+          "destination": "/studio/index.html"
+        }
       ]
     }
   },
   "rewrites": [
-    { "source": "/studio", "destination": { "service": "studio" } },
-    { "source": "/studio/(.*)", "destination": { "service": "studio" } },
-    { "source": "/(.*)", "destination": { "service": "app" } }
+    {
+      "source": "/studio",
+      "destination": {
+        "service": "studio"
+      }
+    },
+    {
+      "source": "/studio/(.*)",
+      "destination": {
+        "service": "studio"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    }
   ]
 }

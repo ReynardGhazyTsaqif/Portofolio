@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "title": "Reynard Ghazy Tsaqif",
+    "description": "Web developer dan AI engineer dari Padang. Mahasiswa Informatika Universitas Andalas yang membawa machine learning sampai ke layar pengguna."
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "work": "Karya",
+    "playground": "Playground",
+    "notes": "Catatan",
+    "contact": "Kontak",
+    "menu": "Menu",
+    "close": "Tutup",
+    "main": "Navigasi utama",
+    "theme": "Ganti mode gelap",
+    "language": "Bahasa"
+  },
+  "cv": "Unduh CV",
+  "clock": "Padang",
+  "home": {
+    "eyebrow": "Web developer dan AI engineer",
+    "oneLiner": "Banyak orang bisa melatih model. Saya memastikan model itu sampai ke layar pengguna.",
+    "placeholder": "Hero Danau Maninjau dengan nama tulisan tangan dibangun di tahap 2."
+  },
+  "pages": {
+    "about": {
+      "title": "Tentang",
+      "accent": "saya",
+      "intro": "Mahasiswa Informatika Universitas Andalas, front-end developer di Neo Telemetri, dan koordinator litbang di laboratorium pemrograman kampus.",
+      "placeholder": "Ringkasan, timeline pengalaman, pendidikan, prestasi, dan skill hadir di tahap 5."
+    },
+    "work": {
+      "title": "Karya",
+      "accent": "pilihan",
+      "intro": "Aplikasi web, model machine learning, dan titik di mana keduanya bertemu.",
+      "placeholder": "Daftar project dengan filter dan halaman studi kasus hadir di tahap 6."
+    },
+    "playground": {
+      "title": "Play",
+      "accent": "ground",
+      "intro": "Eksperimen kecil yang bisa dicoba langsung di browser, dimulai dari model yang berjalan di perangkat Anda.",
+      "placeholder": "Demo interaktif hadir di tahap 7."
+    },
+    "notes": {
+      "title": "Catatan",
+      "accent": "lapangan",
+      "intro": "Tulisan singkat tentang apa yang saya bangun dan pelajari di web development, AI, dan data science.",
+      "placeholder": "Catatan hadir di tahap 7."
+    },
+    "contact": {
+      "title": "Mari",
+      "accent": "ngobrol",
+      "intro": "Sedang mencari anak magang, atau punya ide project? Email adalah cara tercepat menghubungi saya.",
+      "placeholder": "Halaman kontak lengkap hadir di tahap 8. Email di bawah sudah bisa dipakai."
+    }
+  },
+  "footer": {
+    "lead": "Terbuka untuk magang dan posisi junior di web development, AI, dan data science.",
+    "copy": "Salin email",
+    "copied": "Tersalin",
+    "selected": "Terpilih, tekan Ctrl+C",
+    "rights": "Reynard Ghazy Tsaqif"
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "body": "Halaman ini tidak ada atau sudah dipindahkan.",
+    "back": "Kembali ke beranda"
+  }
+}

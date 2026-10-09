@@ -1,0 +1,57 @@
+import type { Metadata } from "next";
+import { Hanken_Grotesk, Instrument_Serif } from "next/font/google";
+import { locales } from "@/i18n/config";
+import { getDictionary, getLocale } from "@/i18n/dictionary";
+import { site } from "@/lib/site";
+import { I18nProvider } from "@/components/providers/I18nProvider";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { PageTransition } from "@/components/motion/PageTransition";
+import { Navbar } from "@/components/site/Navbar";
+import { Footer } from "@/components/site/Footer";
+import { FloatingCV } from "@/components/site/FloatingCV";
+import "../globals.css";
+
+const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
+const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
+
+// Runs before paint: applies the saved or system theme, and flags that JS motion is on.
+const bootScript = `(function(){try{var d=document.documentElement,t=localStorage.getItem("theme"),k=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;d.classList.toggle("dark",k);if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.dataset.motion="on"}catch(e){}})()`;
+
+export function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+  return {
+    metadataBase: new URL(site.url),
+    title: { default: dict.meta.title, template: `%s | ${dict.meta.title}` },
+    description: dict.meta.description,
+    alternates: { canonical: `/${lang}`, languages: { en: "/en", id: "/id" } },
+    openGraph: { type: "website", siteName: site.name, locale: lang === "id" ? "id_ID" : "en_US" },
+  };
+}
+
+export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+
+  return (
+    <html lang={lang} className={`${hanken.variable} ${instrument.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+      </head>
+      <body>
+        <I18nProvider lang={lang} dict={dict}>
+          <SmoothScroll>
+            <PageTransition>
+              <Navbar />
+              <main id="main">{children}</main>
+              <Footer />
+              <FloatingCV />
+            </PageTransition>
+          </SmoothScroll>
+        </I18nProvider>
+      </body>
+    </html>
+  );
+}

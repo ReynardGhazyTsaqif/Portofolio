@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "title": "Reynard Ghazy Tsaqif",
+    "description": "Web developer and AI engineer from Padang, Indonesia. Informatics student at Universitas Andalas building machine learning that reaches the user's screen."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "work": "Work",
+    "playground": "Playground",
+    "notes": "Notes",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close",
+    "main": "Main navigation",
+    "theme": "Toggle dark mode",
+    "language": "Language"
+  },
+  "cv": "Download CV",
+  "clock": "Padang",
+  "home": {
+    "eyebrow": "Web developer and AI engineer",
+    "oneLiner": "Many people can train a model. I make sure it reaches the user's screen.",
+    "placeholder": "The Lake Maninjau hero with the handwritten name is built in phase 2."
+  },
+  "pages": {
+    "about": {
+      "title": "About",
+      "accent": "me",
+      "intro": "Informatics student at Universitas Andalas, front-end developer at Neo Telemetri, and R&D coordinator at the campus programming lab.",
+      "placeholder": "Quick glance, experience timeline, education, achievements and skills arrive in phase 5."
+    },
+    "work": {
+      "title": "Selected",
+      "accent": "work",
+      "intro": "Web apps, machine learning models and the places where they meet.",
+      "placeholder": "Project list with filters and case study pages arrive in phase 6."
+    },
+    "playground": {
+      "title": "Play",
+      "accent": "ground",
+      "intro": "Small experiments you can try in the browser, starting with models that run on your device.",
+      "placeholder": "Interactive demos arrive in phase 7."
+    },
+    "notes": {
+      "title": "Field",
+      "accent": "notes",
+      "intro": "Short write-ups on what I build and learn in web development, AI and data science.",
+      "placeholder": "Notes arrive in phase 7."
+    },
+    "contact": {
+      "title": "Say",
+      "accent": "hello",
+      "intro": "Hiring an intern, or have a project in mind? Email reaches me fastest.",
+      "placeholder": "The full contact page arrives in phase 8. The email below already works."
+    }
+  },
+  "footer": {
+    "lead": "Open to internships and junior roles in web development, AI and data science.",
+    "copy": "Copy email",
+    "copied": "Copied",
+    "selected": "Selected, press Ctrl+C",
+    "rights": "Reynard Ghazy Tsaqif"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "This page doesn't exist or has moved.",
+    "back": "Back to home"
+  }
+}
