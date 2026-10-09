@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
-import { personal } from "../data/personal";
+import { useProfile } from "../lib/content";
 
 const Footer = () => {
+  const { profile: personal } = useProfile();
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const footerLinks = [

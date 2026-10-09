@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { personal } from "../data/personal";
+import { useProfile } from "../lib/content";
 
 const GateScreen = ({ onEnter }) => {
+  const { profile: personal } = useProfile();
   return (
     <motion.div
       className="min-h-screen bg-white flex items-center justify-center px-6"
@@ -30,7 +31,7 @@ const GateScreen = ({ onEnter }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          {personal.name}
+          {personal.name || " "}
         </motion.h1>
 
         <motion.p
@@ -39,7 +40,7 @@ const GateScreen = ({ onEnter }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          {personal.role}
+          {personal.role || " "}
         </motion.p>
 
         <motion.button

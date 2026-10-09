@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { projects } from "../data/projects";
+import { useProjects } from "../lib/content";
+import SectionStatus from "./SectionStatus";
 
 // ─── Desktop: direction-aware fill helper ───────────────────────────────────
 function getEnterDirection(e, rect) {
@@ -270,6 +271,10 @@ function ProjectCard({ project }) {
 
 // ─── Section utama ───────────────────────────────────────────────────────────
 const Projects = () => {
+  const { status, data, retry } = useProjects();
+  const projects = data ?? [];
+  const showStatus = status !== "success" || projects.length === 0;
+
   return (
     <>
       <style>{`
@@ -289,15 +294,21 @@ const Projects = () => {
             <h2 className="section-heading mb-0">Projects</h2>
           </div>
 
+          {showStatus && (
+            <SectionStatus status={status} label="projects" onRetry={retry} />
+          )}
+
           {/* Mobile: expandable cards dengan preview */}
           <div className="md:hidden">
             {projects.map((project) => (
-              <ProjectCard key={project.name} project={project} />
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
 
           {/* Desktop: tabel interaktif dengan hover fill */}
-          <div className="hidden md:block overflow-x-hidden">
+          <div
+            className={`hidden ${showStatus ? "" : "md:block"} overflow-x-hidden`}
+          >
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b border-black/20">
@@ -314,7 +325,7 @@ const Projects = () => {
               <tbody>
                 {projects.map((project, index) => (
                   <ProjectRow
-                    key={project.name}
+                    key={project.id}
                     project={project}
                     index={index}
                   />

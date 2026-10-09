@@ -1,9 +1,25 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { bio, stats } from "../data/personal";
-import ReyAbout from "../assets/ReyAbout.jpg";
+import { useProfile } from "../lib/content";
+
+// Satu kata per komponen agar jumlah hook tetap stabil saat bio dimuat async.
+const Word = ({ word, index, total, progress }) => {
+  const start = index / total;
+  const end = start + 0.5;
+  const opacity = useTransform(progress, [start, end], [0.2, 1]);
+
+  return (
+    <motion.span style={{ opacity }} className="mr-2 text-black">
+      {word}
+    </motion.span>
+  );
+};
 
 const AboutMe = () => {
+  const { profile } = useProfile();
+  const stats = profile.stats;
+  const words = profile.bio ? profile.bio.split(" ") : [];
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -45,17 +61,19 @@ const AboutMe = () => {
             className="relative flex justify-center"
             
           >
-            <img
-              src={ReyAbout}
-              alt="Profile"
-              className="
-                w-[240px]
-                sm:w-[300px]
-                lg:w-[380px]
-                object-contain
-                transition-transform duration-500
-              "
-            />
+            {profile.aboutImage && (
+              <img
+                src={profile.aboutImage}
+                alt="Profile"
+                className="
+                  w-[240px]
+                  sm:w-[300px]
+                  lg:w-[380px]
+                  object-contain
+                  transition-transform duration-500
+                "
+              />
+            )}
 
             {/* Floating Stats */}
             <div
@@ -83,7 +101,7 @@ const AboutMe = () => {
                   "
                 >
                   <div className="text-lg sm:text-xl font-bold text-primary font-poppins">
-                    {stat.number || stat.text}
+                    {stat.value}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-500 font-poppins">
                     {stat.label}
@@ -111,26 +129,15 @@ const AboutMe = () => {
                 flex flex-wrap
               "
             >
-              {bio.description.split(" ").map((word, index) => {
-                const start = index / bio.description.split(" ").length;
-                const end = start + 0.5;
-
-                const opacity = useTransform(
-                  scrollYProgress,
-                  [start, end],
-                  [0.2, 1],
-                );
-
-                return (
-                  <motion.span
-                    key={index}
-                    style={{ opacity }}
-                    className="mr-2 text-black"
-                  >
-                    {word}
-                  </motion.span>
-                );
-              })}
+              {words.map((word, index) => (
+                <Word
+                  key={index}
+                  word={word}
+                  index={index}
+                  total={words.length}
+                  progress={scrollYProgress}
+                />
+              ))}
             </motion.p>
           </motion.div>
         </div>

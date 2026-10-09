@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://https://reynard.infokand23.my.id//sitemap.xml
+Sitemap: https://reynard.infokand23.my.id/sitemap.xml

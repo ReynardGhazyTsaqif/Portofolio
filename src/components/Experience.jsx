@@ -1,11 +1,14 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
-import { experience } from "../data/experience";
+import { useExperience } from "../lib/content";
+import SectionStatus from "./SectionStatus";
 
 const Experience = () => {
   const min_height = 400;
   const containerRef = useRef(null);
   const [active, setActive] = useState(0);
+  const { status, data, retry } = useExperience();
+  const experience = data ?? [];
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -36,6 +39,12 @@ const Experience = () => {
           </div>
         </div>
 
+        {(status !== "success" || experience.length === 0) && (
+          <div className="pb-16">
+            <SectionStatus status={status} label="experience" onRetry={retry} />
+          </div>
+        )}
+
         {/* ─── Layout grid — sama di mobile dan desktop ─────────────── */}
         <div className="grid grid-cols-4 lg:grid-cols-12 gap-6 lg:gap-12">
 
@@ -44,7 +53,7 @@ const Experience = () => {
             <div className="space-y-4 lg:space-y-5 border-l border-black/10 pl-3 lg:pl-5">
               {experience.map((exp, i) => (
                 <div
-                  key={i}
+                  key={exp.id}
                   onClick={() =>
                     document
                       .querySelector(`[data-exp='${i}']`)
@@ -90,7 +99,7 @@ const Experience = () => {
 
               return (
                 <motion.div
-                  key={i}
+                  key={exp.id}
                   data-exp={i}
                   animate={{
                     scale: isActive ? 1 : 0.95,
@@ -149,7 +158,7 @@ const Experience = () => {
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 lg:gap-2 mt-4 lg:mt-8">
-                      {exp.tags.map((tag, idx) => (
+                      {(exp.tags ?? []).map((tag, idx) => (
                         <span
                           key={idx}
                           className="text-[9px] lg:text-[11px] font-medium px-2.5 py-1 lg:px-3 lg:py-1.5 bg-gray-100 text-gray-600 rounded-full uppercase tracking-[0.06em]"

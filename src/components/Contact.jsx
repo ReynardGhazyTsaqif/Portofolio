@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope, FaInstagram } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
-import { personal, emailjs as emailjsConfig } from "../data/personal";
+import { emailjs as emailjsConfig } from "../data/personal";
+import { useProfile } from "../lib/content";
 
 function validate(data) {
   if (!data.name.trim()) return "Name is required.";
@@ -14,6 +15,7 @@ function validate(data) {
 }
 
 const Contact = () => {
+  const { profile: personal } = useProfile();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -73,12 +75,12 @@ const Contact = () => {
     { icon: FaGithub, url: personal.github, label: "GitHub" },
     {
       icon: FaLinkedin,
-      url: `https://${personal.linkedin}`,
+      url: personal.linkedin,
       label: "LinkedIn",
     },
-    { icon: FaEnvelope, url: `mailto:${personal.email}`, label: "Email" },
+    { icon: FaEnvelope, url: personal.email && `mailto:${personal.email}`, label: "Email" },
     { icon: FaInstagram, url: personal.instagram, label: "Instagram" },
-  ];
+  ].filter((s) => s.url);
 
   const isSending = status === "sending";
 

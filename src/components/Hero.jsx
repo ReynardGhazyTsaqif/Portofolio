@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import { FaChevronDown } from "react-icons/fa";
-import { personal } from "../data/personal";
-import ReyImage from "../assets/Rey.png";
+import { useProfile } from "../lib/content";
 
 const Hero = () => {
+  const { profile: personal } = useProfile();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -61,7 +61,7 @@ const Hero = () => {
               className="flex flex-col sm:flex-row gap-4"
             >
               <a
-                href="/CV_Reynard_Ghazy_Tsaqif.pdf"
+                href={personal.resume}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-dark w-full sm:w-[180px] text-center font-poppins"
@@ -88,22 +88,24 @@ const Hero = () => {
             transition={{ delay: 1, duration: 0.8 }}
             className="flex justify-center lg:justify-end relative"
           >
-            <motion.img
-              src={ReyImage}
-              alt="Reynard 3D Typography"
-              whileHover={{ scale: 1.05 }}
-              className="
-                w-[280px]
-                sm:w-[380px]
-                md:w-[460px]
-                lg:w-[560px]
-                xl:w-[640px]
-                object-contain
-                mix-blend-multiply
-                lg:translate-x-16
-                lg:-translate-y-8
-              "
-            />
+            {personal.heroImage && (
+              <motion.img
+                src={personal.heroImage}
+                alt="Reynard 3D Typography"
+                whileHover={{ scale: 1.05 }}
+                className="
+                  w-[280px]
+                  sm:w-[380px]
+                  md:w-[460px]
+                  lg:w-[560px]
+                  xl:w-[640px]
+                  object-contain
+                  mix-blend-multiply
+                  lg:translate-x-16
+                  lg:-translate-y-8
+                "
+              />
+            )}
           </motion.div>
         </div>
 

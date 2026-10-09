@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
-import { technologies } from "../data/technologies";
+import { useTechnologies } from "../lib/content";
+import SectionStatus from "./SectionStatus";
 
 const Technologies = () => {
+  const { status, data, retry } = useTechnologies();
+  const technologies = data ?? [];
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -30,6 +33,15 @@ const Technologies = () => {
           Technologies
         </motion.h2>
 
+        {(status !== "success" || technologies.length === 0) && (
+          <SectionStatus
+            status={status}
+            label="technologies"
+            onRetry={retry}
+            rows={2}
+          />
+        )}
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -47,7 +59,7 @@ const Technologies = () => {
         >
           {technologies.map((tech) => (
             <motion.div
-              key={tech.name}
+              key={tech.id}
               variants={itemVariants}
               className="flex flex-col items-center space-y-3 group cursor-pointer"
             >
