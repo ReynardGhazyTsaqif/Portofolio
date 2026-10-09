@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "app": {
+      "root": ".",
+      "framework": "vite"
+    },
+    "studio": {
+      "root": "studio",
+      "framework": null,
+      "buildCommand": "SANITY_STUDIO_BASEPATH=/studio sanity build dist/studio -y",
+      "outputDirectory": "dist",
+      "rewrites": [
+        { "source": "/studio", "destination": "/studio/index.html" },
+        { "source": "/studio/(.*)", "destination": "/studio/index.html" }
+      ]
+    }
+  },
+  "rewrites": [
+    { "source": "/studio", "destination": { "service": "studio" } },
+    { "source": "/studio/(.*)", "destination": { "service": "studio" } },
+    { "source": "/(.*)", "destination": { "service": "app" } }
+  ]
+}
