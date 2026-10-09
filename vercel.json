@@ -7,8 +7,8 @@
     },
     "studio": {
       "root": "studio",
-      "framework": null,
-      "buildCommand": "SANITY_STUDIO_BASEPATH=/studio sanity build dist/studio -y",
+      "framework": "sanity",
+      "buildCommand": "SANITY_STUDIO_BASEPATH=/studio sanity build dist/studio -y && cp dist/studio/index.html dist/index.html",
       "outputDirectory": "dist",
       "rewrites": [
         { "source": "/studio", "destination": "/studio/index.html" },
