@@ -7,6 +7,10 @@
 
 export const WORLD = { w: 1600, h: 1000, horizon: 640 } as const;
 
+/** The name's reflection is mirrored about this line. It sits a little above the shore so the reflection
+ *  lands in open water instead of behind the rocks; the eye reads it as the same lake. */
+export const REFLECTION_AXIS = 596;
+
 type RGB = [number, number, number];
 const hex = (h: string): RGB => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255) as RGB;
 
@@ -87,6 +91,7 @@ export const PALETTES = {
     rockDark: "#4e5248",
     rockMoss: "#6c7d5c",
     ink: "#1d221b",
+    paper: "#f2ede3",
   },
   dark: {
     skyTop: "#0b100e",
@@ -102,6 +107,7 @@ export const PALETTES = {
     rockDark: "#121512",
     rockMoss: "#26321f",
     ink: "#ebe6da",
+    paper: "#121511",
   },
 } as const;
 

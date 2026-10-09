@@ -1,4 +1,4 @@
-import { RIDGES, ROCKS, WORLD, type Palette } from "./scene";
+import { REFLECTION_AXIS, RIDGES, ROCKS, WORLD, type Palette } from "./scene";
 
 /*
  * One full-screen fragment shader draws the whole picture: sky, sun/moon, four caldera ridges and mist
@@ -33,7 +33,7 @@ uniform vec3 uRidge[4];
 uniform vec4 uRock[${N_ROCKS}];   // x, y, rx, ry
 uniform float uRockSeed[${N_ROCKS}];
 uniform vec2 uRockOffset;
-uniform vec3 uSkyTop, uSkyLow, uSun, uGlow, uMist, uWaterTop, uWaterLow, uGlint, uRockLight, uRockDark, uRockMoss, uInk;
+uniform vec3 uSkyTop, uSkyLow, uSun, uGlow, uMist, uWaterTop, uWaterLow, uGlint, uRockLight, uRockDark, uRockMoss, uInk, uPaper;
 uniform vec3 uSunPos;         // x, y, radius in world units
 uniform float uNight;
 uniform sampler2D uName;
@@ -44,6 +44,7 @@ const float TAU = 6.2831853;
 const float W = ${WORLD.w.toFixed(1)};
 const float H = ${WORLD.h.toFixed(1)};
 const float HORIZON = ${WORLD.horizon.toFixed(1)};
+const float AXIS = ${REFLECTION_AXIS.toFixed(1)};
 
 float shoreY(float x) {
   return HORIZON + 9.0 * sin(x * 0.0061 + 1.1) + 5.0 * sin(x * 0.0173 + 2.3) + 2.5 * sin(x * 0.0419 + 0.4);
@@ -102,7 +103,7 @@ vec3 water(vec2 p, float aa, float shore) {
   float k = 0.8 + 4.2 * t;
   float dx = (sin(p.y * 0.17 - uTime * 1.15) * 0.6 + sin(p.y * 0.055 + p.x * 0.003 + uTime * 0.5) * 0.8) * k;
   float dy = sin(p.y * 0.32 - uTime * 1.4) * 0.35 * k;
-  vec2 q = vec2(p.x + dx, 2.0 * HORIZON - p.y + dy);
+  vec2 q = vec2(p.x + dx, 2.0 * AXIS - p.y + dy);
   vec2 uv = (q - uNameRect.xy) / uNameRect.zw;
   if (uv.x > 0.0 && uv.x < 1.0 && uv.y > 0.0 && uv.y < 1.0) {
     float a = texture2D(uName, uv).a * uNameAlpha * (1.0 - 0.55 * t);
@@ -161,6 +162,11 @@ void main() {
   float w = smoothstep(shore - aa * 1.5, shore + aa * 1.5, p.y);
   vec3 col = w <= 0.0 ? sky(p, aa) : w >= 1.0 ? water(p, aa, shore) : mix(sky(p, aa), water(p, aa, shore), w);
   col = rocks(p, col, aa);
+  // the bottom of the picture dissolves into the page: first a soft mist, then the page colour
+  float fromBottom = gl_FragCoord.y / uRes.y;
+  float fade = smoothstep(0.26, 0.0, fromBottom);
+  col = mix(col, mix(uMist, uPaper, 0.5), 0.35 * smoothstep(0.34, 0.12, fromBottom));
+  col = mix(col, uPaper, fade * fade * (3.0 - 2.0 * fade));
   col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 255.0;   // dither long gradients
   gl_FragColor = vec4(col, 1.0);
 }
@@ -182,7 +188,7 @@ export type FrameState = {
 
 const COLOR_UNIFORMS = {
   uSkyTop: "skyTop", uSkyLow: "skyLow", uSun: "sun", uGlow: "glow", uMist: "mist", uWaterTop: "waterTop", uWaterLow: "waterLow",
-  uGlint: "glint", uRockLight: "rockLight", uRockDark: "rockDark", uRockMoss: "rockMoss", uInk: "ink",
+  uGlint: "glint", uRockLight: "rockLight", uRockDark: "rockDark", uRockMoss: "rockMoss", uInk: "ink", uPaper: "paper",
 } as const;
 
 export class HeroRenderer {

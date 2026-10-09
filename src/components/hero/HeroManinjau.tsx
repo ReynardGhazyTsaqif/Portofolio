@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { handwriting } from "./handwriting";
 import { HeroRenderer } from "./renderer";
-import { NAME, RIDGES, ROCKS, ROCK_DEPTH, SUN, WORLD, paletteRGB, ridgeY, rockRadius, shoreY, viewFor, type Palette } from "./scene";
+import { NAME, REFLECTION_AXIS, RIDGES, ROCKS, ROCK_DEPTH, SUN, WORLD, paletteRGB, ridgeY, rockRadius, shoreY, viewFor, type Palette } from "./scene";
 
 type Props = { oneLiner: string; eyebrow: string; place: string; replay: string; scroll: string };
 
@@ -114,8 +114,8 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         const s = width / VW;
         nameRect = [NAME.cx - width / 2, NAME.baseline + VY * s, width, VH * s];
         position(box, ...nameRect);
-        // the DOM reflection (no-WebGL fallback) sits mirrored about the water line
-        position(refl, nameRect[0], 2 * WORLD.horizon - nameRect[1] - nameRect[3], nameRect[2], nameRect[3]);
+        // the DOM reflection (no-WebGL fallback) sits mirrored about the reflection line
+        position(refl, nameRect[0], 2 * REFLECTION_AXIS - nameRect[1] - nameRect[3], nameRect[2], nameRect[3]);
         if (renderer) {
           const dpr = Math.min(window.devicePixelRatio || 1, finePointer ? 1.75 : 1.35) * quality;
           renderer.resize(Math.round(w * dpr), Math.round(h * dpr));
@@ -243,6 +243,8 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         <path d={WATER_PATH} fill="url(#hero-water)" />
         {ROCK_PATHS.map((d, i) => <path key={i} d={d} style={{ fill: "var(--hero-rock)" }} />)}
       </svg>
+      {/* static fade into the page (WebGL draws its own) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-b from-transparent to-paper" aria-hidden />
 
       <canvas ref={canvas} className="absolute inset-0 size-full opacity-0 transition-opacity duration-700" aria-hidden />
 
