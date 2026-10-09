@@ -160,14 +160,42 @@
     "playground": {
       "title": "Play",
       "accent": "ground",
-      "intro": "Small experiments you can try in the browser, starting with models that run on your device.",
-      "placeholder": "Interactive demos arrive in phase 7."
+      "intro": "Small experiments you can try right here. Everything runs in your browser; nothing is uploaded.",
+      "status": {
+        "live": "Live",
+        "wip": "In progress",
+        "idea": "Idea"
+      },
+      "more": "More experiments",
+      "moreEmpty": "More experiments are on the way, starting with the spice classifier running on your device.",
+      "kmeans": {
+        "label": "Experiment 01",
+        "title": "Palette by",
+        "accent": "k-means",
+        "intro": "Pick an image and the algorithm groups its pixels into k clusters. Each cluster's centre becomes a colour in the palette, sized by how much of the image it covers.",
+        "samples": "Sample images",
+        "upload": "Use your own image",
+        "k": "Colours (k)",
+        "run": "Run again",
+        "original": "Original",
+        "quantized": "Rebuilt from the palette",
+        "palette": "Palette",
+        "stats": "{iterations} iterations on {pixels} pixels in {ms} ms",
+        "copied": "Copied",
+        "copy": "Click a colour to copy its hex code.",
+        "error": "That file couldn't be read as an image. Try a JPG or PNG."
+      }
     },
     "notes": {
       "title": "Field",
       "accent": "notes",
       "intro": "Short write-ups on what I build and learn in web development, AI and data science.",
-      "placeholder": "Notes arrive in phase 7."
+      "empty": "The first notes are on the way: short write-ups on shipping models to the web. Check back soon.",
+      "minutes": "min read",
+      "back": "All notes",
+      "onlyIn": "This note is only available in English.",
+      "readIn": "Read in Bahasa Indonesia",
+      "progress": "Reading progress"
     },
     "contact": {
       "title": "Say",

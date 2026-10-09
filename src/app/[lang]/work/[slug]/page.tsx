@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { localePath } from "@/i18n/config";
-import { getProject, getProjects } from "@/lib/sanity/content";
+import { getProject, getProjects, staticSlugs } from "@/lib/sanity/content";
 import { imageUrl } from "@/lib/sanity/client";
 import { paragraphs, t } from "@/lib/sanity/locale";
 import { projectImage, projectTitle } from "@/lib/projects";
@@ -14,7 +14,7 @@ import { TransitionLink } from "@/components/motion/PageTransition";
 import { RichText } from "@/components/work/RichText";
 
 export async function generateStaticParams() {
-  return (await getProjects()).map((p) => ({ slug: p.slug }));
+  return staticSlugs((await getProjects()).map((p) => p.slug));
 }
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug]">): Promise<Metadata> {

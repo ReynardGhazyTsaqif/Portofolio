@@ -160,14 +160,42 @@
     "playground": {
       "title": "Play",
       "accent": "ground",
-      "intro": "Eksperimen kecil yang bisa dicoba langsung di browser, dimulai dari model yang berjalan di perangkat Anda.",
-      "placeholder": "Demo interaktif hadir di tahap 7."
+      "intro": "Eksperimen kecil yang bisa langsung dicoba di sini. Semuanya berjalan di browser Anda; tidak ada yang diunggah.",
+      "status": {
+        "live": "Live",
+        "wip": "Dikerjakan",
+        "idea": "Ide"
+      },
+      "more": "Eksperimen lain",
+      "moreEmpty": "Eksperimen lain sedang disiapkan, dimulai dari model klasifikasi rempah yang berjalan di perangkat Anda.",
+      "kmeans": {
+        "label": "Eksperimen 01",
+        "title": "Palet dengan",
+        "accent": "k-means",
+        "intro": "Pilih gambar, lalu algoritma mengelompokkan pikselnya menjadi k klaster. Pusat tiap klaster menjadi satu warna palet, dengan ukuran sesuai seberapa banyak bagian gambar yang ditutupinya.",
+        "samples": "Contoh gambar",
+        "upload": "Pakai gambar sendiri",
+        "k": "Jumlah warna (k)",
+        "run": "Jalankan lagi",
+        "original": "Asli",
+        "quantized": "Disusun ulang dari palet",
+        "palette": "Palet",
+        "stats": "{iterations} iterasi pada {pixels} piksel dalam {ms} ms",
+        "copied": "Tersalin",
+        "copy": "Klik warna untuk menyalin kode hex-nya.",
+        "error": "File itu tidak bisa dibaca sebagai gambar. Coba JPG atau PNG."
+      }
     },
     "notes": {
       "title": "Catatan",
       "accent": "lapangan",
       "intro": "Tulisan singkat tentang apa yang saya bangun dan pelajari di web development, AI, dan data science.",
-      "placeholder": "Catatan hadir di tahap 7."
+      "empty": "Catatan pertama sedang ditulis: tulisan singkat tentang membawa model ke web. Kunjungi lagi nanti.",
+      "minutes": "menit baca",
+      "back": "Semua catatan",
+      "onlyIn": "Catatan ini hanya tersedia dalam bahasa Inggris.",
+      "readIn": "Baca dalam bahasa Inggris",
+      "progress": "Progres membaca"
     },
     "contact": {
       "title": "Mari",

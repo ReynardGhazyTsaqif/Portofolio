@@ -108,7 +108,7 @@ export function WorkRail({ items, labels, allHref, children }: { items: RailItem
         </div>
         <div className="gutter absolute inset-x-0 bottom-10 hidden md:block" aria-hidden>
           <div className="h-px bg-line">
-            <span ref={bar} className="block h-px origin-left scale-x-0 bg-ink" />
+            <span ref={bar} className="block h-px origin-left bg-ink" style={{ transform: "scaleX(0)" }} />
           </div>
         </div>
       </div>

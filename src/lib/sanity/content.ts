@@ -12,6 +12,15 @@ import type {
 
 const PUBLISHED = `!(_id in path("drafts.**"))`;
 
+/**
+ * Cache Components needs every generateStaticParams to return at least one entry. When a collection is
+ * still empty, this stands in a slug that matches nothing, so the route builds and serves a 404.
+ */
+export const EMPTY_SLUG = "_none";
+export function staticSlugs(slugs: string[]): { slug: string }[] {
+  return (slugs.length ? slugs : [EMPTY_SLUG]).map((slug) => ({ slug }));
+}
+
 async function query<T>(groq: string, params: Record<string, unknown>, empty: T): Promise<T> {
   "use cache";
   cacheLife("minutes");

@@ -10,6 +10,29 @@ const LenisContext = createContext<RefObject<Lenis | null> | null>(null);
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
+  // Scroll-linked animations measure the page once; recompute them whenever its height settles
+  // differently (web fonts, images, Sanity content, filtered grids).
+  useEffect(() => {
+    let timer = 0;
+    let lastHeight = document.documentElement.scrollHeight;
+    const refresh = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const h = document.documentElement.scrollHeight;
+        if (Math.abs(h - lastHeight) < 2) return;
+        lastHeight = h;
+        ScrollTrigger.refresh();
+      }, 150);
+    };
+    const ro = new ResizeObserver(refresh);
+    ro.observe(document.body);
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    return () => {
+      ro.disconnect();
+      window.clearTimeout(timer);
+    };
+  }, []);
+
   useEffect(() => {
     if (prefersReducedMotion()) return;
     const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, autoRaf: false });

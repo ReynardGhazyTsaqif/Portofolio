@@ -3,10 +3,17 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { imageSize, imageUrl } from "@/lib/sanity/client";
 import type { SanityImage } from "@/lib/sanity/types";
 
-const components: PortableTextComponents = {
+type Tone = "muted" | "article";
+
+const build = (tone: Tone): PortableTextComponents => ({
   block: {
-    normal: ({ children }) => <p className="max-w-[64ch] text-[17px] leading-relaxed text-muted [&+&]:mt-4">{children}</p>,
-    h3: ({ children }) => <h3 className="mt-10 mb-3 text-[1.4rem] font-extrabold tracking-[-0.02em]">{children}</h3>,
+    normal: ({ children }) =>
+      tone === "article" ? (
+        <p className="text-[clamp(1.05rem,1.3vw,1.18rem)] leading-[1.75] text-ink/90 [&+&]:mt-6">{children}</p>
+      ) : (
+        <p className="max-w-[64ch] text-[17px] leading-relaxed text-muted [&+&]:mt-4">{children}</p>
+      ),
+    h3: ({ children }) => <h3 className={`mb-3 font-extrabold tracking-[-0.02em] ${tone === "article" ? "mt-14 text-[clamp(1.5rem,2.4vw,2rem)]" : "mt-10 text-[1.4rem]"}`}>{children}</h3>,
     blockquote: ({ children }) => <blockquote className="my-8 border-l-2 border-moss pl-5 font-serif text-[1.5rem] leading-snug italic">{children}</blockquote>,
   },
   marks: {
@@ -38,9 +45,11 @@ const components: PortableTextComponents = {
       </pre>
     ),
   },
-};
+});
 
-/** Sanity rich text (Portable Text) in the site's type styles. */
-export function RichText({ value }: { value: unknown[] }) {
-  return <PortableText value={value as never} components={components} />;
+const TONES = { muted: build("muted"), article: build("article") };
+
+/** Sanity rich text (Portable Text) in the site's type styles: muted for case studies, darker and roomier for notes. */
+export function RichText({ value, tone = "muted" }: { value: unknown[]; tone?: Tone }) {
+  return <PortableText value={value as never} components={TONES[tone]} />;
 }
