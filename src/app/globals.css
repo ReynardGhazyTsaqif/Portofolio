@@ -20,7 +20,9 @@
   --hero-r2: #aebbab;
   --hero-r3: #889a81;
   --hero-r4: #5f7558;
-  --hero-lake: #b4c3ba;
+  --hero-water-top: #d3ddd6;
+  --hero-water-low: #93a89e;
+  --hero-rock: #6e7166;
   color-scheme: light;
 }
 
@@ -40,7 +42,9 @@
   --hero-r2: #222e27;
   --hero-r3: #18221c;
   --hero-r4: #101814;
-  --hero-lake: #121a16;
+  --hero-water-top: #1c2822;
+  --hero-water-low: #0a100d;
+  --hero-rock: #262a24;
   color-scheme: dark;
 }
 

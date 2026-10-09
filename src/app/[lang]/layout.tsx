@@ -9,6 +9,7 @@ import { PageTransition } from "@/components/motion/PageTransition";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { FloatingCV } from "@/components/site/FloatingCV";
+import { ThemeSync } from "@/components/site/ThemeSync";
 import "../globals.css";
 
 const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
@@ -36,11 +37,13 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
 
   return (
-    <html lang={lang} className={`${hanken.variable} ${instrument.variable}`} suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      <body>
+      {/* Font classes live on <body>: React rewrites <html> attributes when the locale changes, which would wipe the theme class. */}
+      <body className={`${hanken.variable} ${instrument.variable}`}>
+        <ThemeSync />
         <I18nProvider lang={lang} dict={dict}>
           <SmoothScroll>
             <PageTransition>

@@ -14,15 +14,12 @@ export function ThemeToggle({ label }: { label: string }) {
 
   function toggle() {
     const next = !isDark();
-    const apply = () => {
-      document.documentElement.classList.toggle("dark", next);
-      try {
-        localStorage.setItem("theme", next ? "dark" : "light");
-      } catch {}
-    };
-    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-    if (doc.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) doc.startViewTransition(apply);
-    else apply();
+    // Plain class swap: colours ease through CSS transitions and the hero blends its own palette.
+    // (A View Transition would snapshot the WebGL canvas as a blank frame.)
+    document.documentElement.classList.toggle("dark", next);
+    try {
+      localStorage.setItem("theme", next ? "dark" : "light");
+    } catch {}
   }
 
   return (
