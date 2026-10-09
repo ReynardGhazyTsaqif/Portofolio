@@ -1,7 +1,7 @@
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { localePath } from "@/i18n/config";
 import { getAchievements, getEducation, getExperience, getPosts, getProfile, getProjects } from "@/lib/sanity/content";
-import { imageSize, imageUrl } from "@/lib/sanity/client";
+import { projectView } from "@/lib/projects";
 import { t } from "@/lib/sanity/locale";
 import { HeroManinjau } from "@/components/hero/HeroManinjau";
 import { Statement } from "@/components/home/Statement";
@@ -35,16 +35,8 @@ export default async function HomePage() {
 
   const featured = [...projects].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)).slice(0, 6);
   const rail: RailItem[] = featured.map((p) => {
-    const size = imageSize(p.image);
-    return {
-      slug: p.slug,
-      href: localePath(lang, `/work/${p.slug}`),
-      title: p.title.replace(/\s+—\s+.*$/, ""),
-      category: (p.categories ?? []).map((c) => dict.categories[c]).join(" / ") || t(p.roleLocalized, lang, p.role ?? ""),
-      year: p.year,
-      tools: p.techStack ?? [],
-      image: size ? { src: imageUrl(p.image, 1200), width: size.width, height: size.height, alt: p.image?.alt || p.title } : null,
-    };
+    const v = projectView(p, lang, dict);
+    return { ...v, category: v.categoryLabel };
   });
 
   return (

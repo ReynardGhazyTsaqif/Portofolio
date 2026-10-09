@@ -127,8 +127,35 @@
     "work": {
       "title": "Selected",
       "accent": "work",
-      "intro": "Web apps, machine learning models and the places where they meet.",
-      "placeholder": "Project list with filters and case study pages arrive in phase 6."
+      "intro": "Web apps, machine learning and the places where they meet. Filter by what you're hiring for.",
+      "filters": {
+        "all": "All",
+        "web": "Web",
+        "ai": "AI / ML",
+        "data": "Data",
+        "label": "Filter projects"
+      },
+      "count": "projects",
+      "view": "Read the case study",
+      "empty": "No projects in this category yet.",
+      "case": {
+        "back": "All work",
+        "role": "Role",
+        "year": "Year",
+        "stack": "Stack",
+        "links": "Links",
+        "live": "Live site",
+        "repo": "Code",
+        "problem": "The problem",
+        "contribution": "What I did",
+        "decisions": "Technical decisions",
+        "outcome": "Outcome",
+        "numbers": "Key numbers",
+        "gallery": "Gallery",
+        "pending": "This part of the case study is still being written.",
+        "next": "Next project"
+      },
+      "countOne": "project"
     },
     "playground": {
       "title": "Play",

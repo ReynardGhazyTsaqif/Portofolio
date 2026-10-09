@@ -127,8 +127,35 @@
     "work": {
       "title": "Karya",
       "accent": "pilihan",
-      "intro": "Aplikasi web, model machine learning, dan titik di mana keduanya bertemu.",
-      "placeholder": "Daftar project dengan filter dan halaman studi kasus hadir di tahap 6."
+      "intro": "Aplikasi web, machine learning, dan titik di mana keduanya bertemu. Saring sesuai posisi yang Anda cari.",
+      "filters": {
+        "all": "Semua",
+        "web": "Web",
+        "ai": "AI / ML",
+        "data": "Data",
+        "label": "Saring project"
+      },
+      "count": "project",
+      "view": "Baca studi kasus",
+      "empty": "Belum ada project di kategori ini.",
+      "case": {
+        "back": "Semua karya",
+        "role": "Peran",
+        "year": "Tahun",
+        "stack": "Teknologi",
+        "links": "Tautan",
+        "live": "Situs live",
+        "repo": "Kode",
+        "problem": "Masalahnya",
+        "contribution": "Yang saya kerjakan",
+        "decisions": "Keputusan teknis",
+        "outcome": "Hasil",
+        "numbers": "Angka kunci",
+        "gallery": "Galeri",
+        "pending": "Bagian studi kasus ini masih ditulis.",
+        "next": "Project berikutnya"
+      },
+      "countOne": "project"
     },
     "playground": {
       "title": "Play",
