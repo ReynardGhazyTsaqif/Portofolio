@@ -14,7 +14,8 @@
     "close": "Close",
     "main": "Main navigation",
     "theme": "Toggle dark mode",
-    "language": "Language"
+    "language": "Language",
+    "skip": "Skip to content"
   },
   "cv": "Download CV",
   "clock": "Padang",
@@ -201,7 +202,15 @@
       "title": "Say",
       "accent": "hello",
       "intro": "Hiring an intern, or have a project in mind? Email reaches me fastest.",
-      "placeholder": "The full contact page arrives in phase 8. The email below already works."
+      "channels": "Elsewhere",
+      "availability": "Availability",
+      "location": "Location",
+      "locationValue": "Padang, West Sumatra, Indonesia",
+      "time": "Local time",
+      "cv": "Download CV",
+      "cvBody": "One page, updated regularly.",
+      "reply": "I usually reply within a day, in English or Indonesian.",
+      "emailLabel": "Email"
     }
   },
   "footer": {

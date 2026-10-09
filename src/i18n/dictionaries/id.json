@@ -14,7 +14,8 @@
     "close": "Tutup",
     "main": "Navigasi utama",
     "theme": "Ganti mode gelap",
-    "language": "Bahasa"
+    "language": "Bahasa",
+    "skip": "Lewati ke konten"
   },
   "cv": "Unduh CV",
   "clock": "Padang",
@@ -201,7 +202,15 @@
       "title": "Mari",
       "accent": "ngobrol",
       "intro": "Sedang mencari anak magang, atau punya ide project? Email adalah cara tercepat menghubungi saya.",
-      "placeholder": "Halaman kontak lengkap hadir di tahap 8. Email di bawah sudah bisa dipakai."
+      "channels": "Kanal lain",
+      "availability": "Ketersediaan",
+      "location": "Lokasi",
+      "locationValue": "Padang, Sumatera Barat, Indonesia",
+      "time": "Waktu lokal",
+      "cv": "Unduh CV",
+      "cvBody": "Satu halaman, diperbarui berkala.",
+      "reply": "Biasanya saya membalas dalam sehari, dalam bahasa Indonesia atau Inggris.",
+      "emailLabel": "Email"
     }
   },
   "footer": {

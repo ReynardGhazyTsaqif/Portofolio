@@ -28,8 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(site.url),
     title: { default: dict.meta.title, template: `%s | ${dict.meta.title}` },
     description: dict.meta.description,
-    alternates: { canonical: `/${lang}`, languages: { en: "/en", id: "/id" } },
-    openGraph: { type: "website", siteName: site.name, locale: lang === "id" ? "id_ID" : "en_US" },
+    openGraph: { type: "website", siteName: site.name, locale: lang === "id" ? "id_ID" : "en_US", alternateLocale: lang === "id" ? "en_US" : "id_ID" },
+    twitter: { card: "summary_large_image" },
   };
 }
 
@@ -47,8 +47,11 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         <I18nProvider lang={lang} dict={dict}>
           <SmoothScroll>
             <PageTransition>
+              <a href="#main" className="sr-only z-[100] rounded-md bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+                {dict.nav.skip}
+              </a>
               <Navbar />
-              <main id="main">{children}</main>
+              <main id="main" tabIndex={-1} className="outline-none">{children}</main>
               <Footer />
               <FloatingCV />
             </PageTransition>

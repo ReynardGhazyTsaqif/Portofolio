@@ -67,7 +67,7 @@ export function WorkRail({ items, labels, allHref, children }: { items: RailItem
               className="group grid w-[min(560px,84vw)] shrink-0 snap-start grid-rows-[auto_auto_1fr] gap-6 border-l border-line px-[clamp(20px,2.6vw,40px)] py-2 first:max-md:ml-[var(--gutter)]"
             >
               <div className="flex items-start gap-5">
-                <span className="text-[clamp(2.6rem,4vw,3.6rem)] leading-[0.85] font-extrabold tracking-[-0.05em] text-line tabular-nums transition-colors duration-500 group-hover:text-moss">
+                <span className="text-[clamp(2.6rem,4vw,3.6rem)] leading-[0.85] font-extrabold tracking-[-0.05em] text-ink/50 tabular-nums transition-colors duration-500 group-hover:text-moss">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="min-w-0">

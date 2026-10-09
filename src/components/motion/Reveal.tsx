@@ -27,6 +27,7 @@ export function Reveal({ as: Tag = "div", className = "", delay = 0.35, children
         type: "lines",
         mask: "lines",
         linesClass: "rv-line",
+        aria: "none",
         autoSplit: true,
         onSplit(self) {
           el.classList.remove("reveal-pending");

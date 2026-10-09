@@ -12,6 +12,28 @@ const NAME_PATHS = handwriting.reynard.paths;
 const [VX, VY, VW, VH] = handwriting.reynard.viewBox;
 const STROKE = 30; // font units
 
+/*
+ * The name box is placed in pure CSS with container units, using the same cover-fit maths as the canvas,
+ * so it sits in the right spot on the very first frame (no layout shift while JS loads).
+ * --s: CSS pixels per world unit. --nw: the name's width in pixels.
+ */
+const SCENE_VARS = {
+  containerType: "size",
+  "--s": `max(calc(100cqw / ${WORLD.w}), calc(100cqh / ${WORLD.h}))`,
+  "--nw": `min(calc(${NAME.maxWidth} * var(--s)), ${NAME.fill * 100}cqw)`,
+} as React.CSSProperties;
+const NAME_BOX: React.CSSProperties = {
+  left: "calc(50cqw - var(--nw) / 2)",
+  width: "var(--nw)",
+  height: `calc(var(--nw) * ${VH / VW})`,
+  top: `calc(50cqh + ${NAME.baseline - WORLD.h / 2} * var(--s) + var(--nw) * ${VY / VW})`,
+};
+// mirrored about the reflection line: used when WebGL isn't drawing the reflection
+const REFLECTION_BOX: React.CSSProperties = {
+  ...NAME_BOX,
+  top: `calc(50cqh + ${2 * REFLECTION_AXIS - WORLD.h / 2 - NAME.baseline} * var(--s) - var(--nw) * ${(VY + VH) / VW})`,
+};
+
 // The handwriting plays once per visit; coming back to the page shows the finished name.
 let introPlayed = false;
 
@@ -101,21 +123,15 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       let view = viewFor(1, 1);
       let nameRect: [number, number, number, number] = [0, 0, 1, 1];
       let quality = 1;
-      let renderer = reduce ? null : HeroRenderer.create(cvs);
-
-      function position(el: HTMLElement, x: number, y: number, w: number, h: number) {
-        Object.assign(el.style, { left: `${(x - view.ox) * view.scale}px`, top: `${(y - view.oy) * view.scale}px`, width: `${w * view.scale}px`, height: `${h * view.scale}px` });
-      }
+      let renderer: HeroRenderer | null = null;
 
       function layout() {
         const w = section.clientWidth, h = section.clientHeight;
         view = viewFor(w, h);
         const width = Math.min(NAME.maxWidth, view.visibleW * NAME.fill);
         const s = width / VW;
+        // same rectangle the CSS on the name box computes; the shader needs it in world units
         nameRect = [NAME.cx - width / 2, NAME.baseline + VY * s, width, VH * s];
-        position(box, ...nameRect);
-        // the DOM reflection (no-WebGL fallback) sits mirrored about the reflection line
-        position(refl, nameRect[0], 2 * REFLECTION_AXIS - nameRect[1] - nameRect[3], nameRect[2], nameRect[3]);
         if (renderer) {
           const dpr = Math.min(window.devicePixelRatio || 1, finePointer ? 1.75 : 1.35) * quality;
           renderer.resize(Math.round(w * dpr), Math.round(h * dpr));
@@ -141,7 +157,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         box.style.transform = `translate3d(${nx * view.scale}px, ${ny * view.scale}px, 0)`;
         box.style.opacity = String(fade);
         if (!active || !renderer) return;
-        if (renderer.lost) return showStaticScene();
+        if (renderer.lost || renderer.failed) return showStaticScene();
         if (nameDirty) {
           renderer.setName(nameCanvas);
           nameDirty = false;
@@ -153,7 +169,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         const dpr = renderer.width / section.clientWidth;
         // tall phone screens show little of the shore, so the rocks rise a little to stay in frame
         const lift = Math.min(130, Math.max(0, (1 - section.clientWidth / section.clientHeight) * 190));
-        renderer.render({
+        const drawn = renderer.render({
           time,
           scale: view.scale * dpr,
           originX: view.ox,
@@ -166,6 +182,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
           nameRect: [nameRect[0] + nx, nameRect[1] + ny, nameRect[2], nameRect[3]],
           nameAlpha: 0.55 * fade,
         });
+        if (!drawn) return; // shader still compiling: the static scene stays up
         cvs.style.opacity = "1";
         refl.style.opacity = "0";
         // If the device can't keep up, render fewer pixels rather than drop frames.
@@ -183,7 +200,13 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         showStaticScene();
       };
       cvs.addEventListener("webglcontextlost", onLost);
-      if (!renderer) showStaticScene();
+
+      // WebGL starts once the browser is idle, so it never competes with the first paint or the handwriting.
+      const startGL = () => {
+        renderer = HeroRenderer.create(cvs);
+        if (renderer) layout();
+      };
+      const idleId: number = reduce ? 0 : typeof window.requestIdleCallback === "function" ? window.requestIdleCallback(startGL, { timeout: 3000 }) : window.setTimeout(startGL, 300);
 
       ScrollTrigger.create({ trigger: section, start: "top bottom", end: "bottom top", onToggle: (s) => (active = s.isActive) });
       ScrollTrigger.create({ trigger: section, start: "top top", end: "bottom top", onUpdate: (s) => (st.scroll = s.progress) });
@@ -211,6 +234,8 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       }
 
       return () => {
+        if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleId);
+        window.clearTimeout(idleId);
         gsap.ticker.remove(tick);
         ro.disconnect();
         themeObserver.disconnect();
@@ -223,7 +248,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
   );
 
   return (
-    <section ref={root} className="hero-scene relative h-[100svh] min-h-[600px] overflow-hidden" aria-label={place}>
+    <section ref={root} className="hero-scene relative h-[100svh] min-h-[600px] overflow-hidden" style={SCENE_VARS} aria-label={place}>
       <h1 className="sr-only">Reynard Ghazy Tsaqif</h1>
 
       <svg className="absolute inset-0 size-full" viewBox={`0 0 ${WORLD.w} ${WORLD.h}`} preserveAspectRatio="xMidYMid slice" aria-hidden>
@@ -249,13 +274,13 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       <canvas ref={canvas} className="absolute inset-0 size-full opacity-0 transition-opacity duration-700" aria-hidden />
 
       {/* reflection used only when WebGL isn't drawing it */}
-      <div ref={reflBox} className="pointer-events-none absolute top-0 left-0 -scale-y-100 opacity-30 blur-[1px] transition-opacity duration-500" aria-hidden>
+      <div ref={reflBox} className="pointer-events-none absolute -scale-y-100 opacity-30 blur-[1px] transition-opacity duration-500" style={REFLECTION_BOX} aria-hidden>
         <svg viewBox={`${VX} ${VY} ${VW} ${VH}`} className="block size-full overflow-visible">
           <use href="#hero-name" />
         </svg>
       </div>
 
-      <div ref={nameBox} className="pointer-events-none absolute top-0 left-0 will-change-transform" aria-hidden>
+      <div ref={nameBox} className="pointer-events-none absolute will-change-transform" style={NAME_BOX} aria-hidden>
         <svg viewBox={`${VX} ${VY} ${VW} ${VH}`} className="block size-full overflow-visible">
           <defs>
             <linearGradient id="hw-ink" gradientUnits="userSpaceOnUse" x1={VX} y1="0" x2={VX + VW} y2="0">

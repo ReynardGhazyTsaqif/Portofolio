@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
+import { pageMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
 import { localePath } from "@/i18n/config";
 import { getAchievements, getEducation, getExperience, getPosts, getProfile, getProjects } from "@/lib/sanity/content";
 import { projectView } from "@/lib/projects";
@@ -10,6 +13,11 @@ import { WorkRail, type RailItem } from "@/components/home/WorkRail";
 import { ExperiencePreview } from "@/components/home/ExperiencePreview";
 import { NotesPreview } from "@/components/home/NotesPreview";
 import { SectionHead } from "@/components/ui/SectionHead";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+  return { ...pageMetadata(lang, "/", undefined, dict.meta.description), title: { absolute: `${dict.meta.title}, ${dict.home.eyebrow}` } };
+}
 
 export default async function HomePage() {
   const lang = await getLocale();
@@ -39,8 +47,23 @@ export default async function HomePage() {
     return { ...v, category: v.categoryLabel };
   });
 
+  // Structured data so search engines can show who this site is about.
+  const person = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.name,
+    url: site.url,
+    email: `mailto:${site.email}`,
+    jobTitle: home.eyebrow,
+    address: { "@type": "PostalAddress", addressLocality: "Padang", addressRegion: "West Sumatra", addressCountry: "ID" },
+    alumniOf: { "@type": "CollegeOrUniversity", name: "Universitas Andalas" },
+    knowsAbout: ["Web development", "React", "Laravel", "Machine learning", "Data science"],
+    sameAs: site.socials.map((s) => s.href),
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />
       <HeroManinjau
         eyebrow={t(profile?.headline, lang, home.eyebrow)}
         oneLiner={t(profile?.oneLiner, lang, home.oneLiner)}

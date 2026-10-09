@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://reynarddev.vercel.app/sitemap.xml

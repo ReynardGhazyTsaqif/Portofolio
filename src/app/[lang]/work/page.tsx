@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { getProjects } from "@/lib/sanity/content";
 import { projectView } from "@/lib/projects";
@@ -6,8 +7,9 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { ProjectGrid } from "@/components/work/ProjectGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = (await getDictionary()).pages.work;
-  return { title: `${page.title} ${page.accent}`, description: page.intro };
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+  const page = dict.pages.work;
+  return pageMetadata(lang, "/work", `${page.title} ${page.accent}`, page.intro);
 }
 
 export default async function WorkPage() {

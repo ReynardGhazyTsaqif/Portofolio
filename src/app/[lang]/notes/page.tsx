@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { localePath } from "@/i18n/config";
 import { getPosts } from "@/lib/sanity/content";
@@ -7,8 +8,9 @@ import { Stagger } from "@/components/motion/Stagger";
 import { TransitionLink } from "@/components/motion/PageTransition";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = (await getDictionary()).pages.notes;
-  return { title: `${page.title} ${page.accent}`, description: page.intro };
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+  const page = dict.pages.notes;
+  return pageMetadata(lang, "/notes", `${page.title} ${page.accent}`, page.intro);
 }
 
 export default async function NotesPage() {

@@ -16,11 +16,3 @@ export function PageHeader({ title, accent, intro }: PageHeaderProps) {
   );
 }
 
-/** Marks a section that a later build phase fills in. */
-export function PhaseNote({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="gutter pb-[clamp(80px,10vw,140px)]">
-      <p className="rounded-lg border border-dashed border-line bg-surface px-6 py-10 text-center text-muted">{children}</p>
-    </div>
-  );
-}

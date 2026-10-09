@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { getPlayground } from "@/lib/sanity/content";
@@ -10,8 +11,9 @@ import { Stagger } from "@/components/motion/Stagger";
 import { KMeansPalette } from "@/components/playground/KMeansPalette";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = (await getDictionary()).pages.playground;
-  return { title: `${page.title}${page.accent}`, description: page.intro };
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+  const page = dict.pages.playground;
+  return pageMetadata(lang, "/playground", `${page.title}${page.accent}`, page.intro);
 }
 
 export default async function PlaygroundPage() {

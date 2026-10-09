@@ -196,7 +196,9 @@ export class HeroRenderer {
   private program: WebGLProgram;
   private buffer: WebGLBuffer | null;
   private loc: Record<string, WebGLUniformLocation | null> = {};
-  private nameTex: WebGLTexture | null;
+  private nameTex: WebGLTexture | null = null;
+  private parallel: KHR_parallel_shader_compile | null;
+  private state: "compiling" | "ready" | "failed" = "compiling";
   width = 0;
   height = 0;
 
@@ -204,6 +206,10 @@ export class HeroRenderer {
     try {
       const gl = canvas.getContext("webgl", { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: "high-performance" });
       if (!gl || gl.isContextLost()) return null;
+      // Without a GPU the shader would run on the CPU and stall the page; the static scene looks the same.
+      const info = gl.getExtension("WEBGL_debug_renderer_info");
+      const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+      if (/swiftshader|llvmpipe|software|basic render/i.test(name)) return null;
       return new HeroRenderer(gl);
     } catch (err) {
       console.warn("[hero] WebGL unavailable, using the static scene", err);
@@ -211,21 +217,48 @@ export class HeroRenderer {
     }
   }
 
+  /**
+   * Starts compiling without waiting for it. With KHR_parallel_shader_compile the driver compiles in the
+   * background and `render` simply skips frames until the program is ready, so the page never freezes.
+   */
   private constructor(gl: WebGLRenderingContext) {
     this.gl = gl;
-    const compile = (type: number, src: string) => {
+    this.parallel = gl.getExtension("KHR_parallel_shader_compile");
+    const shader = (type: number, src: string) => {
       const s = gl.createShader(type)!;
       gl.shaderSource(s, src);
       gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) ?? "shader error");
       return s;
     };
     const prog = gl.createProgram()!;
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, shader(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FRAG));
     gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog) ?? "link error");
     this.program = prog;
+    this.buffer = null;
+  }
+
+  get failed() {
+    return this.state === "failed";
+  }
+
+  /** True once the program is linked and set up; finishes setup the first time it is. */
+  private ready(): boolean {
+    if (this.state !== "compiling") return this.state === "ready";
+    const gl = this.gl, prog = this.program;
+    if (this.parallel && !gl.getProgramParameter(prog, this.parallel.COMPLETION_STATUS_KHR)) return false;
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn("[hero] shader failed, using the static scene", gl.getProgramInfoLog(prog));
+      this.state = "failed";
+      return false;
+    }
+    this.setup();
+    this.state = "ready";
+    return true;
+  }
+
+  private setup() {
+    const gl = this.gl, prog = this.program;
     gl.useProgram(prog);
 
     this.buffer = gl.createBuffer();
@@ -254,7 +287,10 @@ export class HeroRenderer {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
     gl.uniform1i(this.loc.uName, 0);
+    if (this.pendingName) this.setName(this.pendingName);
   }
+
+  private pendingName: HTMLCanvasElement | null = null;
 
   get lost() {
     return this.gl.isContextLost();
@@ -273,12 +309,18 @@ export class HeroRenderer {
 
   /** Uploads the low-resolution name drawing used for the reflection. */
   setName(source: HTMLCanvasElement) {
+    if (this.state !== "ready") {
+      this.pendingName = source;
+      return;
+    }
     const gl = this.gl;
     gl.bindTexture(gl.TEXTURE_2D, this.nameTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
   }
 
-  render(s: FrameState) {
+  /** Draws a frame; returns false while the shader is still compiling. */
+  render(s: FrameState): boolean {
+    if (!this.ready()) return false;
     const gl = this.gl, l = this.loc, p = s.palette;
     gl.uniform2f(l.uRes, this.width, this.height);
     gl.uniform1f(l.uScale, s.scale);
@@ -293,6 +335,7 @@ export class HeroRenderer {
     gl.uniform4fv(l.uNameRect, s.nameRect);
     gl.uniform1f(l.uNameAlpha, s.nameAlpha);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+    return true;
   }
 
   /** Frees GPU resources but keeps the context alive, so the same canvas can be reused when the page comes back. */

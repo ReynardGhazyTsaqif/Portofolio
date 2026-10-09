@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { localePath, locales } from "@/i18n/config";
@@ -29,10 +30,14 @@ function wordCount(blocks: unknown[] | null): number {
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/notes/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const [lang, post] = await Promise.all([getLocale(), getPost(slug)]);
   if (!post) return {};
   const image = imageUrl(post.cover, 1200);
-  return { title: post.title, description: post.excerpt ?? undefined, openGraph: { type: "article", publishedTime: post.publishedAt, images: image ? [{ url: image }] : undefined } };
+  const meta = pageMetadata(lang, `/notes/${post.slug}`, post.title, post.excerpt ?? undefined, {
+    openGraph: { type: "article", publishedTime: post.publishedAt, images: image ? [{ url: image, width: 1200 }] : undefined },
+  });
+  // a note exists in one language; point search engines at that version
+  return { ...meta, alternates: { canonical: `/${post.language}/notes/${post.slug}` } };
 }
 
 export default async function NotePage({ params }: PageProps<"/[lang]/notes/[slug]">) {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { getAchievements, getCertificates, getEducation, getExperience, getProfile, getTechnologies } from "@/lib/sanity/content";
 import { imageUrl } from "@/lib/sanity/client";
@@ -13,8 +14,9 @@ import { Achievements, type AchievementCard, type CertificateCard } from "@/comp
 import { Skills, type SkillGroup } from "@/components/about/Skills";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = (await getDictionary()).pages.about;
-  return { title: `${page.title} ${page.accent}`, description: page.intro };
+  const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
+  const page = dict.pages.about;
+  return pageMetadata(lang, "/about", `${page.title} ${page.accent}`, page.intro);
 }
 
 // Used until technologies get a category in Sanity (see studio/migrations/v2-content.mjs).

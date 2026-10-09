@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale } from "@/i18n/dictionary";
@@ -22,11 +23,9 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
   const [lang, project] = await Promise.all([getLocale(), getProject(slug)]);
   if (!project) return {};
   const image = imageUrl(project.image, 1200);
-  return {
-    title: projectTitle(project.title),
-    description: t(project.summary, lang, project.description ?? undefined),
-    openGraph: image ? { images: [{ url: image }] } : undefined,
-  };
+  return pageMetadata(lang, `/work/${project.slug}`, projectTitle(project.title), t(project.summary, lang, project.description ?? undefined), {
+    openGraph: image ? { type: "article", images: [{ url: image, width: 1200 }] } : { type: "article" },
+  });
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
