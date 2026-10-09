@@ -21,7 +21,10 @@
   "home": {
     "eyebrow": "Web developer and AI engineer",
     "oneLiner": "Many people can train a model. I make sure it reaches the user's screen.",
-    "placeholder": "The Lake Maninjau hero with the handwritten name is built in phase 2."
+    "place": "Lake Maninjau, West Sumatra",
+    "replay": "Replay",
+    "scroll": "Scroll",
+    "placeholder": "Highlights, selected work, experience and notes arrive in phase 4."
   },
   "pages": {
     "about": {

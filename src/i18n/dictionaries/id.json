@@ -21,7 +21,10 @@
   "home": {
     "eyebrow": "Web developer dan AI engineer",
     "oneLiner": "Banyak orang bisa melatih model. Saya memastikan model itu sampai ke layar pengguna.",
-    "placeholder": "Hero Danau Maninjau dengan nama tulisan tangan dibangun di tahap 2."
+    "place": "Danau Maninjau, Sumatera Barat",
+    "replay": "Putar ulang",
+    "scroll": "Gulir",
+    "placeholder": "Highlight, karya pilihan, pengalaman, dan catatan hadir di tahap 4."
   },
   "pages": {
     "about": {

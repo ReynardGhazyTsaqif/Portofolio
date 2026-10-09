@@ -12,6 +12,15 @@
   --moss: #46663f;
   --on-moss: #fcfbf7;
   --gutter: clamp(16px, 4vw, 64px);
+  /* Hero static scene; keep in sync with PALETTES in components/hero/scene.ts */
+  --hero-sky-top: #f7f2e8;
+  --hero-sky-low: #e9ede4;
+  --hero-sun: #fff6e2;
+  --hero-r1: #cdd4ca;
+  --hero-r2: #aebbab;
+  --hero-r3: #889a81;
+  --hero-r4: #5f7558;
+  --hero-lake: #b4c3ba;
   color-scheme: light;
 }
 
@@ -24,6 +33,14 @@
   --line: #2d3329;
   --moss: #9dbf8f;
   --on-moss: #121511;
+  --hero-sky-top: #0b100e;
+  --hero-sky-low: #1a2520;
+  --hero-sun: #ece6d2;
+  --hero-r1: #2c3a32;
+  --hero-r2: #222e27;
+  --hero-r3: #18221c;
+  --hero-r4: #101814;
+  --hero-lake: #121a16;
   color-scheme: dark;
 }
 
@@ -90,6 +107,21 @@
 }
 @keyframes reveal-fallback {
   to { visibility: visible; }
+}
+
+/* Hero copy waits for the handwriting; shows itself after 8s if JS never runs. */
+[data-motion="on"] .hero-in {
+  opacity: 0;
+  animation: hero-in-fallback 0s 8s forwards;
+}
+@keyframes hero-in-fallback {
+  to { opacity: 1; }
+}
+@keyframes hero-drip {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
 /* SplitText line masks: room above and below so ascenders and descenders aren't clipped. */
