@@ -78,7 +78,51 @@
       "title": "About",
       "accent": "me",
       "intro": "Informatics student at Universitas Andalas, front-end developer at Neo Telemetri, and R&D coordinator at the campus programming lab.",
-      "placeholder": "Quick glance, experience timeline, education, achievements and skills arrive in phase 5."
+      "glance": {
+        "label": "A quick glance",
+        "title": "I turn models into things people can",
+        "accent": "use",
+        "bio": "I'm an Informatics student at Universitas Andalas in Padang. My studies focus on artificial intelligence and data science, and web development is how I put that work in front of people.\n\nI build front ends with React, Laravel and Tailwind CSS at PT Neo Telemetri, coordinate research and development at the campus Programming Laboratory, and reached the national finals of LIDM 2026.\n\nA model is only useful once someone can use it. That last step, from notebook to browser, is the part I like to own.",
+        "status": "Open to internships",
+        "based": "Based in Padang, UTC+7",
+        "portraitAlt": "Portrait of Reynard Ghazy Tsaqif"
+      },
+      "experience": {
+        "label": "Experience",
+        "title": "Where I've been",
+        "accent": "building",
+        "intro": "Product work, a research lab, an internship and student organisations."
+      },
+      "education": {
+        "label": "Education",
+        "title": "Where I",
+        "accent": "study",
+        "gpa": "GPA",
+        "of": "of",
+        "courses": "Relevant courses",
+        "focus": "Focus",
+        "pending": "Dates to be added"
+      },
+      "achievements": {
+        "label": "Recognition",
+        "title": "Achievements and",
+        "accent": "certificates",
+        "certs": "Certificates",
+        "noCerts": "Certificates will be listed here soon.",
+        "view": "View credential"
+      },
+      "skills": {
+        "label": "Skills",
+        "title": "What I work",
+        "accent": "with",
+        "groups": {
+          "web": "Web development",
+          "ai": "AI and machine learning",
+          "data": "Data",
+          "tools": "Tools"
+        },
+        "learning": "Currently learning"
+      }
     },
     "work": {
       "title": "Selected",

@@ -78,7 +78,51 @@
       "title": "Tentang",
       "accent": "saya",
       "intro": "Mahasiswa Informatika Universitas Andalas, front-end developer di Neo Telemetri, dan koordinator litbang di laboratorium pemrograman kampus.",
-      "placeholder": "Ringkasan, timeline pengalaman, pendidikan, prestasi, dan skill hadir di tahap 5."
+      "glance": {
+        "label": "Sekilas",
+        "title": "Saya mengubah model menjadi sesuatu yang bisa",
+        "accent": "dipakai",
+        "bio": "Saya mahasiswa Informatika Universitas Andalas di Padang. Fokus kuliah saya adalah kecerdasan buatan dan sains data, dan web development adalah cara saya membawa hasilnya ke pengguna.\n\nSaya membangun front-end dengan React, Laravel, dan Tailwind CSS di PT Neo Telemetri, mengoordinasikan riset dan pengembangan di Laboratorium Pemrograman kampus, dan menjadi finalis nasional LIDM 2026.\n\nModel baru berguna setelah bisa dipakai orang. Langkah terakhir itu, dari notebook sampai ke browser, adalah bagian yang paling saya sukai.",
+        "status": "Terbuka untuk magang",
+        "based": "Berbasis di Padang, UTC+7",
+        "portraitAlt": "Potret Reynard Ghazy Tsaqif"
+      },
+      "experience": {
+        "label": "Pengalaman",
+        "title": "Tempat saya",
+        "accent": "berkarya",
+        "intro": "Pekerjaan produk, laboratorium riset, magang, dan organisasi mahasiswa."
+      },
+      "education": {
+        "label": "Pendidikan",
+        "title": "Tempat saya",
+        "accent": "belajar",
+        "gpa": "IPK",
+        "of": "dari",
+        "courses": "Mata kuliah relevan",
+        "focus": "Fokus",
+        "pending": "Tanggal akan ditambahkan"
+      },
+      "achievements": {
+        "label": "Pengakuan",
+        "title": "Prestasi dan",
+        "accent": "sertifikat",
+        "certs": "Sertifikat",
+        "noCerts": "Daftar sertifikat segera hadir.",
+        "view": "Lihat kredensial"
+      },
+      "skills": {
+        "label": "Skill",
+        "title": "Yang saya",
+        "accent": "kuasai",
+        "groups": {
+          "web": "Web development",
+          "ai": "AI dan machine learning",
+          "data": "Data",
+          "tools": "Tools"
+        },
+        "learning": "Sedang dipelajari"
+      }
     },
     "work": {
       "title": "Karya",
