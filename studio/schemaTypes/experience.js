@@ -50,6 +50,18 @@ export default defineType({
       description:
         "Urutan tampil (kecil = lebih atas). Item paling atas diberi badge \"Current\".",
     }),
+
+    // ─── New site (v2) ───
+    defineField({
+      name: "kind",
+      title: "Type",
+      type: "string",
+      options: { list: [{ title: "Work", value: "work" }, { title: "Internship", value: "internship" }, { title: "Lab", value: "lab" }, { title: "Organisation", value: "organisation" }, { title: "Volunteer", value: "volunteer" }], layout: "radio" },
+    }),
+    defineField({ name: "roleLocalized", title: "Role (EN / ID)", type: "localeString" }),
+    defineField({ name: "summary", title: "Summary (EN / ID)", type: "localeText" }),
+    defineField({ name: "highlights", title: "Highlights", type: "array", of: [{ type: "localeString" }], description: "Poin-poin pencapaian, 1 kalimat per poin." }),
+    defineField({ name: "location", title: "Location", type: "string" }),
   ],
   orderings: [
     { title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },

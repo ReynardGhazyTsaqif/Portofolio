@@ -72,6 +72,13 @@ export default defineType({
       type: "number",
       description: "Urutan tampil (kecil = lebih dulu).",
     }),
+    defineField({
+      name: "category",
+      title: "Category (v2)",
+      type: "string",
+      options: { list: [{ title: "Web", value: "web" }, { title: "AI / ML", value: "ai" }, { title: "Data", value: "data" }, { title: "Tools", value: "tools" }], layout: "radio" },
+    }),
+    defineField({ name: "learning", title: "Currently learning", type: "boolean", initialValue: false }),
   ],
   orderings: [
     { title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },

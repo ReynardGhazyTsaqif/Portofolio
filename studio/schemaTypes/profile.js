@@ -8,6 +8,7 @@ export default defineType({
     { name: "main", title: "Utama", default: true },
     { name: "about", title: "About" },
     { name: "contact", title: "Kontak & Sosmed" },
+    { name: "v2", title: "Situs baru (v2)" },
   ],
   fields: [
     defineField({
@@ -66,6 +67,13 @@ export default defineType({
     defineField({ name: "github", title: "GitHub URL", type: "url", group: "contact" }),
     defineField({ name: "linkedin", title: "LinkedIn URL", type: "url", group: "contact" }),
     defineField({ name: "instagram", title: "Instagram URL", type: "url", group: "contact" }),
+
+    // ─── New site (v2). Old fields above stay for the previous site. ───
+    defineField({ name: "headline", title: "Headline", type: "localeString", group: "v2", description: "Baris kecil di hero. Mis. Web developer and AI engineer" }),
+    defineField({ name: "oneLiner", title: "One-liner", type: "localeString", group: "v2", description: "Kalimat utama untuk recruiter." }),
+    defineField({ name: "titles", title: "Titles", type: "array", of: [{ type: "localeString" }], group: "v2", description: "Mis. Web Developer, AI Engineer, Data Scientist" }),
+    defineField({ name: "about", title: "About (paragraphs)", type: "localeText", group: "v2", description: "Pisahkan paragraf dengan satu baris kosong." }),
+    defineField({ name: "availabilityText", title: "Availability", type: "localeString", group: "v2" }),
   ],
   preview: { prepare: () => ({ title: "Profile" }) },
 });
