@@ -185,6 +185,45 @@
         "copied": "Tersalin",
         "copy": "Klik warna untuk menyalin kode hex-nya.",
         "error": "File itu tidak bisa dibaca sebagai gambar. Coba JPG atau PNG."
+      },
+      "knn": {
+        "label": "Eksperimen 02",
+        "title": "Tetangga yang",
+        "accent": "memilih",
+        "intro": "k-nearest neighbours mengklasifikasikan titik baru dengan bertanya pada k titik berlabel terdekat. Letakkan titik dari tiga kelas, lalu lihat batas keputusan bergeser saat k bertambah.",
+        "classes": [
+          "Lumut",
+          "Tanah",
+          "Danau"
+        ],
+        "addAs": "Klik kanvas untuk menambah",
+        "k": "Tetangga (k)",
+        "sample": "Data contoh",
+        "clear": "Hapus",
+        "hint": "Arahkan kursor ke kanvas untuk melihat tetangga mana yang ikut memilih.",
+        "prediction": "Prediksi {class}: {votes} dari {k} tetangga setuju.",
+        "empty": "Belum ada titik. Klik kanvas untuk menambahkannya.",
+        "canvas": "Kanvas k-nearest neighbours. Klik untuk menambah titik dari kelas yang dipilih."
+      },
+      "regression": {
+        "label": "Eksperimen 03",
+        "title": "Mencocokkan kurva dengan",
+        "accent": "gradien",
+        "intro": "Gradient descent menggeser tiap bobot menuruni lereng galat, sedikit demi sedikit. Tambahkan titik, ubah derajat polinomial dan learning rate, lalu lihat kurvanya mengendap, atau meledak saat learning rate terlalu besar.",
+        "degree": "Derajat",
+        "rate": "Learning rate",
+        "train": "Latih",
+        "pause": "Jeda",
+        "reset": "Reset bobot",
+        "sample": "Data contoh",
+        "clear": "Hapus",
+        "hint": "Klik kanvas untuk menambah titik; pelatihan berlanjut dari posisi sekarang.",
+        "stats": "Epoch {epoch} · MSE {loss}",
+        "converged": "Konvergen: galat sudah tidak membaik lagi.",
+        "diverged": "Divergen: langkahnya kebablasan dan makin besar. Pilih learning rate yang lebih kecil.",
+        "needPoints": "Tambahkan minimal dua titik untuk mulai melatih.",
+        "loss": "Loss dari waktu ke waktu, skala log",
+        "canvas": "Kanvas regresi. Klik untuk menambah titik data."
       }
     },
     "notes": {

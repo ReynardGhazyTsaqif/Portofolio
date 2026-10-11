@@ -6,7 +6,7 @@
 export type Cluster = { rgb: [number, number, number]; hex: string; share: number };
 export type KMeansResult = { clusters: Cluster[]; iterations: number; pixels: number; ms: number; assign: Uint8Array };
 
-function rng(seed: number) {
+export function rng(seed: number) {
   return () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
 }
 

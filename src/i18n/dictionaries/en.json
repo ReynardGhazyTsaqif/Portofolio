@@ -185,6 +185,45 @@
         "copied": "Copied",
         "copy": "Click a colour to copy its hex code.",
         "error": "That file couldn't be read as an image. Try a JPG or PNG."
+      },
+      "knn": {
+        "label": "Experiment 02",
+        "title": "Neighbours that",
+        "accent": "vote",
+        "intro": "k-nearest neighbours classifies a new point by asking the k closest labelled points what they are. Place points of three classes and watch the decision regions shift as k grows.",
+        "classes": [
+          "Moss",
+          "Clay",
+          "Lake"
+        ],
+        "addAs": "Click the canvas to add",
+        "k": "Neighbours (k)",
+        "sample": "Sample data",
+        "clear": "Clear",
+        "hint": "Hover over the canvas to see which neighbours get a vote.",
+        "prediction": "Predicted {class}: {votes} of {k} neighbours agree.",
+        "empty": "No points yet. Click the canvas to place some.",
+        "canvas": "k-nearest neighbours canvas. Click to add a point of the selected class."
+      },
+      "regression": {
+        "label": "Experiment 03",
+        "title": "Fitting a curve by",
+        "accent": "descent",
+        "intro": "Gradient descent nudges each weight downhill on the error, one small step at a time. Drop points, change the polynomial degree and learning rate, and watch the curve settle, or blow up when the rate is too high.",
+        "degree": "Degree",
+        "rate": "Learning rate",
+        "train": "Train",
+        "pause": "Pause",
+        "reset": "Reset weights",
+        "sample": "Sample data",
+        "clear": "Clear",
+        "hint": "Click the canvas to add a point; training picks up from where it is.",
+        "stats": "Epoch {epoch} · MSE {loss}",
+        "converged": "Converged: the error has stopped improving.",
+        "diverged": "Diverged: the steps overshoot and grow each time. Pick a smaller learning rate.",
+        "needPoints": "Add at least two points to start training.",
+        "loss": "Loss over time, log scale",
+        "canvas": "Regression canvas. Click to add a data point."
       }
     },
     "notes": {

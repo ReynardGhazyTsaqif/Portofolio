@@ -9,6 +9,8 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Stagger } from "@/components/motion/Stagger";
 import { KMeansPalette } from "@/components/playground/KMeansPalette";
+import { KnnClassifier } from "@/components/playground/KnnClassifier";
+import { GradientDescent } from "@/components/playground/GradientDescent";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
@@ -29,6 +31,16 @@ export default async function PlaygroundPage() {
       <section className="gutter pb-[clamp(100px,13vw,180px)]">
         <SectionHead label={km.label} title={km.title} accent={km.accent} intro={km.intro} />
         <KMeansPalette labels={km} lang={lang} />
+      </section>
+
+      <section className="gutter pb-[clamp(100px,13vw,180px)]">
+        <SectionHead label={page.knn.label} title={page.knn.title} accent={page.knn.accent} intro={page.knn.intro} />
+        <KnnClassifier labels={page.knn} />
+      </section>
+
+      <section className="gutter pb-[clamp(100px,13vw,180px)]">
+        <SectionHead label={page.regression.label} title={page.regression.title} accent={page.regression.accent} intro={page.regression.intro} />
+        <GradientDescent labels={page.regression} lang={lang} />
       </section>
 
       <section className="gutter pb-[clamp(110px,14vw,200px)]">
