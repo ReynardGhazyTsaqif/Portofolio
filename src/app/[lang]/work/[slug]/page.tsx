@@ -10,7 +10,7 @@ import { paragraphs, t } from "@/lib/sanity/locale";
 import { projectImage, projectTitle } from "@/lib/projects";
 import { Reveal } from "@/components/motion/Reveal";
 import { ClipReveal } from "@/components/motion/ClipReveal";
-import { Stagger } from "@/components/motion/Stagger";
+import { Rule, Stagger } from "@/components/motion/Stagger";
 import { TransitionLink } from "@/components/motion/PageTransition";
 import { RichText } from "@/components/work/RichText";
 
@@ -140,8 +140,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/[lang]/work/
           <Section title={copy.numbers}>
             <Stagger as="ul" className="grid gap-8 sm:grid-cols-2">
               {metrics.map((m, i) => (
-                <li key={i} data-stagger className="border-t border-ink pt-4">
-                  <p className="accent text-[clamp(3rem,6vw,5rem)] leading-none">{m.value}</p>
+                <li key={i} data-stagger className="relative pt-4">
+                  <Rule className="bg-ink" />
+                  <p data-count className="accent text-[clamp(3rem,6vw,5rem)] leading-none">{m.value}</p>
                   <p className="mt-3 font-semibold">{t(m.label, lang)}</p>
                 </li>
               ))}

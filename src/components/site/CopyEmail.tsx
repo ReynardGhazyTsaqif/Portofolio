@@ -28,7 +28,7 @@ export function CopyEmail({ className = "" }: { className?: string }) {
       <a ref={addr} href={`mailto:${site.email}`} className="text-[clamp(1.4rem,4vw,3rem)] font-extrabold tracking-[-0.035em] break-all decoration-moss decoration-2 underline-offset-[6px] hover:underline">
         {site.email}
       </a>
-      <button type="button" onClick={copy} className="rounded-md border border-ink px-3 py-1.5 text-[13px] font-semibold transition-colors hover:bg-ink hover:text-paper" aria-live="polite">
+      <button type="button" onClick={copy} data-magnetic="0.25" className="rounded-md border border-ink px-3 py-1.5 text-[13px] font-semibold transition-colors hover:bg-ink hover:text-paper" aria-live="polite">
         {status === "copied" ? dict.footer.copied : status === "selected" ? dict.footer.selected : dict.footer.copy}
       </button>
     </div>

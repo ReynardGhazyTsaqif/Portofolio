@@ -1,4 +1,4 @@
-import { Stagger } from "@/components/motion/Stagger";
+import { Rule, Stagger } from "@/components/motion/Stagger";
 
 export type SkillGroup = { key: string; title: string; items: string[] };
 
@@ -8,7 +8,8 @@ export function Skills({ groups, learning, learningLabel }: { groups: SkillGroup
     <>
       <Stagger className="mt-[clamp(40px,5vw,72px)] grid gap-x-[clamp(24px,4vw,56px)] gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
         {groups.map((g) => (
-          <div key={g.key} data-stagger className="border-t border-ink pt-5">
+          <div key={g.key} data-stagger className="relative pt-5">
+            <Rule className="bg-ink" />
             <h3 className="text-[15px] font-bold">{g.title}</h3>
             <ul className="mt-4 grid gap-1.5">
               {g.items.map((s) => (

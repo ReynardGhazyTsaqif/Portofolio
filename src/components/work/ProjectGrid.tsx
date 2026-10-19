@@ -25,7 +25,7 @@ export function ProjectGrid({ items, labels }: { items: GridItem[]; labels: Labe
   const [filter, setFilter] = useState<Filter>("all");
   const grid = useRef<HTMLUListElement>(null);
   const flipState = useRef<Flip.FlipState | null>(null);
-  const intros = useRef<gsap.core.Tween[]>([]);
+  const intros = useRef<gsap.core.Animation[]>([]);
 
   const visible = (item: GridItem) => filter === "all" || item.categories.includes(filter);
   const shown = items.filter(visible).length;
@@ -58,13 +58,18 @@ export function ProjectGrid({ items, labels }: { items: GridItem[]; labels: Labe
     });
   }, [filter]);
 
-  // First appearance: cards rise in as they scroll into view.
+  // First appearance: each card rises in, its screenshot opening upward like a blind, its text following.
   useGSAP(
     () => {
       if (prefersReducedMotion()) return;
-      intros.current = gsap.utils.toArray<HTMLElement>("[data-card]").map((card) =>
-        gsap.fromTo(card, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: card, start: "top 92%", once: true } }),
-      );
+      intros.current = gsap.utils.toArray<HTMLElement>("[data-card]").map((card, i) => {
+        const tl = gsap.timeline({ delay: (i % 2) * 0.12, scrollTrigger: { trigger: card, start: "top 92%", once: true } });
+        tl.fromTo(card, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: "expo.out" }, 0);
+        const media = card.querySelector("[data-card-media]");
+        if (media) tl.fromTo(media, { clipPath: "inset(100% 0% 0% 0% round 12px)" }, { clipPath: "inset(0% 0% 0% 0% round 12px)", duration: 1.3, ease: "expo.inOut" }, 0);
+        tl.fromTo(card.querySelectorAll("[data-card-text]"), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "expo.out", stagger: 0.06 }, 0.35);
+        return tl;
+      });
     },
     { scope: grid },
   );
@@ -95,8 +100,8 @@ export function ProjectGrid({ items, labels }: { items: GridItem[]; labels: Labe
       <ul ref={grid} className="mt-[clamp(32px,4vw,56px)] grid gap-x-[clamp(20px,3vw,44px)] gap-y-[clamp(48px,6vw,88px)] md:grid-cols-2">
         {items.map((item) => (
           <li key={item.slug} data-card className={visible(item) ? "" : "hidden"}>
-            <TransitionLink href={item.href} label={item.title} className="group block">
-              <div className="overflow-hidden rounded-xl border border-line bg-surface">
+            <TransitionLink href={item.href} label={item.title} data-cursor={labels.view} className="group block">
+              <div data-card-media className="overflow-hidden rounded-xl border border-line bg-surface">
                 {item.image ? (
                   <Image
                     src={item.image.src}
@@ -110,14 +115,14 @@ export function ProjectGrid({ items, labels }: { items: GridItem[]; labels: Labe
                   <div className="grid aspect-[16/10] place-items-center text-[14px] text-muted">{item.title}</div>
                 )}
               </div>
-              <div className="mt-5 flex items-baseline justify-between gap-4">
+              <div data-card-text className="mt-5 flex items-baseline justify-between gap-4">
                 <h2 className="text-[clamp(1.4rem,2.4vw,2rem)] leading-tight font-extrabold tracking-[-0.03em] transition-colors duration-300 group-hover:text-moss">{item.title}</h2>
                 <span className="shrink-0 text-[14px] text-muted tabular-nums">{item.year}</span>
               </div>
-              <p className="mt-1 font-serif text-[1.15rem] text-muted italic">{item.categoryLabel}</p>
-              {item.summary && <p className="mt-3 max-w-[56ch] text-muted">{item.summary}</p>}
-              <p className="mt-4 text-[14px]">{item.tools.join(", ")}</p>
-              <span className="mt-5 inline-flex items-center gap-2 text-[14px] font-semibold">
+              <p data-card-text className="mt-1 font-serif text-[1.15rem] text-muted italic">{item.categoryLabel}</p>
+              {item.summary && <p data-card-text className="mt-3 max-w-[56ch] text-muted">{item.summary}</p>}
+              <p data-card-text className="mt-4 text-[14px]">{item.tools.join(", ")}</p>
+              <span data-card-text className="mt-5 inline-flex items-center gap-2 text-[14px] font-semibold">
                 <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 ease-out-expo group-hover:bg-[length:100%_1.5px]">
                   {labels.view}
                 </span>

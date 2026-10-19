@@ -15,7 +15,7 @@ export function Statement({ text }: { text: string }) {
         aria: "none", // the words stay real text, so screen readers read the sentence as is
         autoSplit: true,
         onSplit: (self) =>
-          gsap.fromTo(self.words, { opacity: 0.5 }, {
+          gsap.fromTo(self.words, { opacity: 0.2 }, {
             opacity: 1,
             ease: "none",
             stagger: 0.1,

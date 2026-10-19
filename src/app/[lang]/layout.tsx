@@ -6,6 +6,7 @@ import { site } from "@/lib/site";
 import { I18nProvider } from "@/components/providers/I18nProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { PointerFX } from "@/components/motion/PointerFX";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { FloatingCV } from "@/components/site/FloatingCV";
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
               <main id="main" tabIndex={-1} className="outline-none">{children}</main>
               <Footer />
               <FloatingCV />
+              <PointerFX />
             </PageTransition>
           </SmoothScroll>
         </I18nProvider>

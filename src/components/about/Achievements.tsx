@@ -1,4 +1,4 @@
-import { Stagger } from "@/components/motion/Stagger";
+import { Rule, Stagger } from "@/components/motion/Stagger";
 
 export type AchievementCard = { id: string; event: string; title: string; summary: string; date: string; link: string | null };
 export type CertificateCard = { id: string; title: string; issuer: string; date: string; link: string | null };
@@ -11,7 +11,7 @@ export function Achievements({ achievements, certificates, labels }: { achieveme
     <>
       <Stagger className="mt-[clamp(40px,5vw,72px)] grid gap-6 md:grid-cols-2">
         {achievements.map((a) => (
-          <article key={a.id} data-stagger className="flex flex-col justify-between gap-10 rounded-xl bg-ink p-[clamp(24px,3.5vw,44px)] text-paper">
+          <article key={a.id} data-stagger data-tilt="4" className="flex flex-col justify-between gap-10 rounded-xl bg-ink p-[clamp(24px,3.5vw,44px)] text-paper">
             <div>
               {a.date && <p className="text-[14px] font-semibold opacity-60 tabular-nums">{a.date}</p>}
               <p className="mt-2 font-serif text-[clamp(2.6rem,5vw,4.2rem)] leading-[0.95] italic">{a.event}</p>
@@ -35,7 +35,8 @@ export function Achievements({ achievements, certificates, labels }: { achieveme
       ) : (
         <Stagger as="ul" className="mt-3 border-b border-line">
           {certificates.map((c) => (
-            <li key={c.id} data-stagger className="grid gap-x-8 gap-y-1 border-t border-line py-5 md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-baseline">
+            <li key={c.id} data-stagger className="relative grid gap-x-8 gap-y-1 py-5 md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-baseline">
+              <Rule />
               <p className="font-bold">{c.title}</p>
               <p className="text-[15px] text-muted">
                 {c.issuer}

@@ -19,6 +19,8 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   const resetScroll = useScrollReset();
   const curtain = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
+  const crest = useRef<SVGSVGElement>(null);
+  const tail = useRef<SVGSVGElement>(null);
   const state = useRef({ busy: false, pending: false, safety: 0 });
 
   const reveal = useCallback(() => {
@@ -30,7 +32,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     gsap
       .timeline({ onComplete: () => { s.busy = false; gsap.set(curtain.current, { y: 0, yPercent: 100 }); } })
       .to(label.current, { yPercent: -60, opacity: 0, duration: 0.4, ease: "power3.in" }, 0.05)
-      .to(curtain.current, { yPercent: -100, duration: 0.8, ease: "expo.inOut" }, 0.12);
+      .to(curtain.current, { yPercent: -100, duration: 0.9, ease: "expo.inOut" }, 0.12)
+      // the trailing edge sags like a sheet of water being lifted, then pulls flat as it leaves
+      .fromTo(tail.current, { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "power2.in" }, 0.12)
+      .to(tail.current, { scaleY: 0, duration: 0.45, ease: "power2.out" }, 0.57);
   }, [resetScroll]);
 
   const navigate = useCallback<Navigate>(
@@ -47,7 +52,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       if (label.current) label.current.textContent = text ?? "";
       gsap
         .timeline({ onComplete: () => router.push(href, { scroll: false }) })
-        .fromTo(curtain.current, { y: 0, yPercent: 100 }, { y: 0, yPercent: 0, duration: 0.7, ease: "expo.inOut" })
+        .fromTo(curtain.current, { y: 0, yPercent: 100 }, { y: 0, yPercent: 0, duration: 0.75, ease: "expo.inOut" })
+        // the rising edge swells in the middle like a wave, and settles flat once the page is covered
+        .fromTo(crest.current, { scaleY: 0 }, { scaleY: 1, duration: 0.375, ease: "power2.in" }, 0)
+        .to(crest.current, { scaleY: 0, duration: 0.375, ease: "power2.out" }, 0.375)
         .fromTo(label.current, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.35);
       // Never leave the page covered if navigation stalls.
       s.safety = window.setTimeout(reveal, 6000);
@@ -68,6 +76,13 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         aria-hidden
         className="pointer-events-none fixed inset-0 z-[90] grid translate-y-full place-items-center bg-moss text-on-moss"
       >
+        {/* curved edges: drawn outside the curtain and squashed flat at rest, so only transforms animate */}
+        <svg ref={crest} viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-x-0 bottom-[calc(100%-1px)] h-[16vh] w-full origin-bottom fill-moss" style={{ transform: "scaleY(0)" }}>
+          <path d="M0 100 Q50 -100 100 100Z" />
+        </svg>
+        <svg ref={tail} viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-x-0 top-[calc(100%-1px)] h-[16vh] w-full origin-top fill-moss" style={{ transform: "scaleY(0)" }}>
+          <path d="M0 0 Q50 200 100 0Z" />
+        </svg>
         <span ref={label} className="font-serif text-[clamp(3rem,10vw,8rem)] italic leading-none opacity-0" />
       </div>
     </TransitionContext.Provider>

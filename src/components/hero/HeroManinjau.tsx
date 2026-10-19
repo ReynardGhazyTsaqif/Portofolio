@@ -35,7 +35,10 @@ const REFLECTION_BOX: React.CSSProperties = {
 };
 
 // The handwriting plays once per visit; coming back to the page shows the finished name.
-let introPlayed = false;
+// If the hero remounts mid-stroke (React's dev double-mount, a streamed re-render), the pen picks up
+// where it left off instead of jumping to the end.
+let introTime = 0;
+let introDone = false;
 
 // ---- static scene for first paint, reduced motion and browsers without WebGL ----
 const RIDGE_PATHS = RIDGES.map((r) => {
@@ -82,7 +85,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       const section = root.current!, box = nameBox.current!, refl = reflBox.current!, cvs = canvas.current!;
       const reduce = prefersReducedMotion();
       const finePointer = window.matchMedia("(pointer: fine)").matches;
-      const skipIntro = reduce || introPlayed;
+      const skipIntro = reduce || introDone;
 
       const paths = Array.from(nameG.current!.querySelectorAll("path"));
       const lens = paths.map((p) => p.getTotalLength());
@@ -222,16 +225,21 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
       // ---- intro: the name is written stroke by stroke, then the copy settles in ----
-      const intro = gsap
-        .timeline({ paused: true, onUpdate: paint })
+      const intro: gsap.core.Timeline = gsap
+        .timeline({
+          paused: true,
+          onUpdate: () => {
+            paint();
+            introTime = intro.time();
+          },
+          onComplete: () => void (introDone = true),
+        })
         .fromTo(st, { write: 0 }, { write: 1, duration: 3.2, ease: "power1.inOut", immediateRender: false })
         .fromTo("[data-hero-in]", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, stagger: 0.12, ease: "expo.out", immediateRender: false }, "-=1.2");
       replayRef.current = () => intro.restart();
       if (skipIntro) gsap.set("[data-hero-in]", { opacity: 1, y: 0 });
-      else {
-        introPlayed = true;
-        intro.delay(0.6).play();
-      }
+      else if (introTime > 0) intro.seek(introTime).play();
+      else intro.delay(0.6).play();
 
       return () => {
         if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleId);

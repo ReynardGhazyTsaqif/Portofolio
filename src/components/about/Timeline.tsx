@@ -49,7 +49,7 @@ export function Timeline({ items }: { items: TimelineItem[] }) {
       {items.map((item) => (
         <li key={item.id} className="group relative">
           <span
-            className="absolute top-1 -left-14 -ml-px grid size-9 place-items-center rounded-full border border-line bg-surface transition-[scale,border-color] duration-500 ease-out-expo group-hover:scale-125 group-[.is-on]:border-moss md:-left-20 md:ml-[7px]"
+            className="absolute top-1 -left-14 -ml-px grid size-9 place-items-center rounded-full border border-line bg-surface transition-[scale,border-color] duration-500 ease-out-expo group-hover:scale-125 group-[.is-on]:animate-[node-pop_0.9s_var(--ease-out-expo)] group-[.is-on]:border-moss md:-left-20 md:ml-[7px]"
             aria-hidden
           >
             <span className="absolute inset-[7px] animate-[spin_7s_linear_infinite] rounded-full border border-dashed border-moss opacity-30 transition-opacity duration-500 group-[.is-on]:opacity-100" />

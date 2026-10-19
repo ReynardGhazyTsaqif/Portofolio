@@ -44,7 +44,7 @@ export function Education({ items, labels }: { items: EducationCard[]; labels: L
           {e.gpa && (
             <div className="self-start md:text-right">
               <p className="text-[13px] font-semibold text-muted">{labels.gpa}</p>
-              <p className="accent text-[clamp(4rem,9vw,7.5rem)] leading-[0.9]">{e.gpa}</p>
+              <p data-count className="accent text-[clamp(4rem,9vw,7.5rem)] leading-[0.9]">{e.gpa}</p>
               <p className="text-[14px] text-muted">
                 {labels.of} {e.gpaScale}
               </p>

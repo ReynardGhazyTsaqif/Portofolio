@@ -29,6 +29,7 @@ export function NotesPreview({ posts, lang, dict }: { posts: PostCard[]; lang: L
               <TransitionLink
                 href={localePath(lang, `/notes/${p.slug}`)}
                 label={p.title}
+                data-tilt="4"
                 className="group block h-full rounded-lg border border-line bg-surface p-6 transition-colors hover:border-ink"
               >
                 <p className="text-[13px] font-semibold text-muted tabular-nums">{fmt.format(new Date(p.publishedAt))}</p>

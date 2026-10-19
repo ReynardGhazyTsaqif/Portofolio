@@ -61,7 +61,7 @@ export default async function ContactPage() {
           </div>
           <div data-stagger>
             <h2 className="text-[13px] font-semibold text-muted">CV</h2>
-            <a href={cv} download className="mt-3 inline-block rounded-md bg-ink px-5 py-3 text-[15px] font-semibold text-paper transition-transform duration-300 hover:-translate-y-0.5">
+            <a href={cv} download data-magnetic="0.3" className="btn-fill mt-3 inline-block rounded-md bg-ink px-5 py-3 text-[15px] font-semibold text-paper">
               {page.cv}
             </a>
             <p className="mt-2 text-[14px] text-muted">{page.cvBody}</p>

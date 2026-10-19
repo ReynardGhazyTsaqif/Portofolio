@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { localePath } from "@/i18n/config";
 import { navItems } from "@/lib/site";
 import { useI18n } from "@/components/providers/I18nProvider";
 import { TransitionLink } from "@/components/motion/PageTransition";
 import { RouteWatcher, WithPathname } from "@/components/motion/Pathname";
+import { RollText } from "@/components/ui/RollText";
 import { ThemeToggle } from "./ThemeToggle";
 import { LangSwitch } from "./LangSwitch";
 import { LocalClock } from "./LocalClock";
@@ -17,6 +18,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const header = useRef<HTMLElement>(null);
   const menu = useRef<HTMLDivElement>(null);
+  const openRef = useRef(open);
 
   const links = navItems.map((item) => ({ ...item, href: localePath(lang, item.path), label: dict.nav[item.key] }));
   const isActive = (pathname: string, href: string, path: string) =>
@@ -35,7 +37,25 @@ export function Navbar() {
 
   useGSAP(() => {
     if (prefersReducedMotion()) return;
-    gsap.fromTo(header.current, { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, ease: "expo.out", delay: 0.2 });
+    const el = header.current!;
+    gsap.fromTo(el, { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, ease: "expo.out", delay: 0.2 });
+
+    // Slips away while reading down the page and comes back the moment you scroll up.
+    let hidden = false;
+    const show = (next: boolean) => {
+      if (next === hidden) return;
+      hidden = next;
+      gsap.to(el, next ? { yPercent: -110, duration: 0.5, ease: "power3.in", overwrite: "auto" } : { yPercent: 0, opacity: 1, duration: 0.8, ease: "expo.out", overwrite: "auto" });
+    };
+    ScrollTrigger.create({
+      start: 0,
+      end: "max",
+      onUpdate: (self) => show(self.direction === 1 && self.scroll() > 320 && !openRef.current),
+    });
+    // keyboard users always see where focus went
+    const onFocus = () => show(false);
+    el.addEventListener("focusin", onFocus);
+    return () => el.removeEventListener("focusin", onFocus);
   });
 
   useGSAP(
@@ -55,6 +75,7 @@ export function Navbar() {
   );
 
   useEffect(() => {
+    openRef.current = open;
     document.documentElement.style.overflow = open ? "hidden" : "";
   }, [open]);
 
@@ -85,7 +106,7 @@ export function Navbar() {
                       aria-current={active ? "page" : undefined}
                       className={`relative rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors ${active ? "text-ink" : "text-muted hover:text-ink"}`}
                     >
-                      {l.label}
+                      <RollText>{l.label}</RollText>
                       <span className={`absolute inset-x-3.5 -bottom-0.5 h-[1.5px] origin-left bg-moss transition-transform duration-500 ease-out-expo ${active ? "scale-x-100" : "scale-x-0"}`} />
                     </TransitionLink>
                   </li>
@@ -103,6 +124,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
+              data-magnetic="0.3"
               aria-expanded={open}
               aria-controls="mobile-menu"
               className="ml-1 rounded-full bg-ink px-4 py-2 text-[13px] font-semibold text-paper lg:hidden"

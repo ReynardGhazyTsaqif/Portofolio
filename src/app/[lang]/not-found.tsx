@@ -9,7 +9,7 @@ export default async function NotFound() {
       <p className="text-[15px] font-semibold text-moss">404</p>
       <h1 className="mt-3 text-[clamp(2.8rem,8vw,6rem)] leading-[0.95] font-extrabold tracking-[-0.045em]">{dict.notFound.title}</h1>
       <p className="mt-5 max-w-[44ch] text-muted">{dict.notFound.body}</p>
-      <TransitionLink href={localePath(lang)} label={dict.nav.home} className="mt-8 self-start rounded-md bg-ink px-5 py-3 text-[15px] font-semibold text-paper">
+      <TransitionLink href={localePath(lang)} label={dict.nav.home} data-magnetic="0.3" className="btn-fill mt-8 self-start rounded-md bg-ink px-5 py-3 text-[15px] font-semibold text-paper">
         {dict.notFound.back}
       </TransitionLink>
     </section>

@@ -4,7 +4,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionary";
 import { localePath } from "@/i18n/config";
 import { getPosts } from "@/lib/sanity/content";
 import { PageHeader } from "@/components/site/PageHeader";
-import { Stagger } from "@/components/motion/Stagger";
+import { Rule, Stagger } from "@/components/motion/Stagger";
 import { TransitionLink } from "@/components/motion/PageTransition";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,11 +28,12 @@ export default async function NotesPage() {
         ) : (
           <Stagger as="ol" className="border-b border-line">
             {posts.map((p) => (
-              <li key={p._id} data-stagger className="border-t border-line">
+              <li key={p._id} data-stagger className="relative">
+                <Rule />
                 <TransitionLink href={localePath(lang, `/notes/${p.slug}`)} label={p.title} className="group grid gap-x-10 gap-y-2 py-8 md:grid-cols-[180px_minmax(0,1fr)]">
                   <time className="text-[14px] font-semibold text-muted tabular-nums">{fmt.format(new Date(p.publishedAt))}</time>
                   <div className="min-w-0">
-                    <h2 className="text-[clamp(1.5rem,3vw,2.4rem)] leading-tight font-extrabold tracking-[-0.035em] transition-colors duration-300 group-hover:text-moss">{p.title}</h2>
+                    <h2 className="text-[clamp(1.5rem,3vw,2.4rem)] leading-tight font-extrabold tracking-[-0.035em] transition-[color,translate] duration-500 ease-out-expo group-hover:translate-x-2 group-hover:text-moss">{p.title}</h2>
                     {p.excerpt && <p className="mt-3 max-w-[62ch] text-muted">{p.excerpt}</p>}
                     {p.tags && p.tags.length > 0 && <p className="mt-3 font-serif text-[1.05rem] text-moss italic">{p.tags.join(", ")}</p>}
                   </div>

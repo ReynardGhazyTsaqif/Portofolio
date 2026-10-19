@@ -2,6 +2,7 @@ import Image from "next/image";
 import { site } from "@/lib/site";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Stagger } from "@/components/motion/Stagger";
+import { Parallax } from "@/components/motion/Parallax";
 import { LocalClock } from "@/components/site/LocalClock";
 
 type Props = {
@@ -50,7 +51,9 @@ export function QuickGlance({ label, title, accent, paragraphs, titles, status, 
 
         <Stagger className="relative mx-auto w-full max-w-[440px] lg:col-span-5">
           <div data-stagger className="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface">
-            <Image src={portrait.src} alt={portrait.alt} fill sizes="(min-width: 1024px) 440px, 90vw" className="object-cover" />
+            <Parallax>
+              <Image src={portrait.src} alt={portrait.alt} fill sizes="(min-width: 1024px) 440px, 90vw" className="object-cover" />
+            </Parallax>
           </div>
           <div data-stagger className="absolute -bottom-6 -left-4 grid gap-0.5 rounded-lg border border-line bg-surface px-5 py-4 text-[14px] shadow-[0_18px_40px_-24px_rgba(29,34,27,0.45)] sm:-left-8">
             <p className="flex items-center gap-2.5 font-bold">

@@ -28,6 +28,7 @@ export function ThemeToggle({ label }: { label: string }) {
       onClick={toggle}
       aria-label={label}
       aria-pressed={dark}
+      data-magnetic="0.4"
       className="grid size-9 place-items-center rounded-full border border-line text-ink transition-colors hover:border-ink"
     >
       <svg viewBox="0 0 24 24" className="size-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
