@@ -39,7 +39,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     lenisRef.current = lenis;
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
+    // first in the frame, so everything that reads the scroll position this frame sees this frame's value
+    gsap.ticker.add(tick, false, true);
     gsap.ticker.lagSmoothing(0);
     return () => {
       gsap.ticker.remove(tick);

@@ -104,7 +104,7 @@ export default async function AboutPage() {
         portrait={{ src: imageUrl(profile?.aboutImage, 900) || "/ReyAbout.jpg", alt: page.glance.portraitAlt }}
       />
 
-      <section className="border-y border-line bg-surface py-[clamp(100px,13vw,190px)]">
+      <section className="env-veil border-y border-line py-[clamp(100px,13vw,190px)]">
         <div className="gutter">
           <SectionHead label={page.experience.label} title={page.experience.title} accent={page.experience.accent} intro={page.experience.intro} align="center" />
           <Timeline items={timeline} />

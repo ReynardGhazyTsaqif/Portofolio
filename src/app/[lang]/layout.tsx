@@ -7,6 +7,7 @@ import { I18nProvider } from "@/components/providers/I18nProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { PointerFX } from "@/components/motion/PointerFX";
+import { LakeEnvironment } from "@/components/environment/LakeEnvironment";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { FloatingCV } from "@/components/site/FloatingCV";
@@ -51,6 +52,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
               <a href="#main" className="sr-only z-[100] rounded-md bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
                 {dict.nav.skip}
               </a>
+              <LakeEnvironment />
               <Navbar />
               <main id="main" tabIndex={-1} className="outline-none">{children}</main>
               <Footer />

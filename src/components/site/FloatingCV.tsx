@@ -21,6 +21,7 @@ export function FloatingCV() {
       href={site.cv}
       download
       data-magnetic="0.25"
+      data-env-flip
       className="group fixed right-[max(16px,env(safe-area-inset-right))] bottom-[max(16px,env(safe-area-inset-bottom))] z-[80] flex items-center gap-2.5 rounded-full bg-ink py-3 pr-5 pl-4 text-[14px] font-semibold text-paper shadow-[0_12px_32px_-12px_rgba(29,34,27,0.45)]"
     >
       <span className="grid size-6 place-items-center overflow-hidden rounded-full bg-moss text-on-moss">

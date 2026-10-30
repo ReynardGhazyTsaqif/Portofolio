@@ -9,7 +9,10 @@ export async function Footer() {
   const dict = await getDictionary();
 
   return (
-    <footer className="gutter border-t border-line bg-surface pt-[clamp(72px,10vw,140px)] pb-28 md:pb-10">
+    <>
+      {/* no copy here on purpose: the last stretch of the dive, where the water goes dark */}
+      <div data-env-plunge aria-hidden className="env-plunge h-[clamp(320px,62vh,720px)]" />
+      <footer className="env-floor dark gutter pt-[clamp(40px,6vw,80px)] pb-28 text-ink md:pb-10">
       <Reveal as="p" delay={0} className="max-w-[46ch] text-muted">
         {dict.footer.lead}
       </Reveal>
@@ -32,6 +35,7 @@ export async function Footer() {
           </span>
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 }

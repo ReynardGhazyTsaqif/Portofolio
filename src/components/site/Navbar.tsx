@@ -83,8 +83,9 @@ export function Navbar() {
     <>
       <header
         ref={header}
-        className={`fixed inset-x-0 top-0 z-[70] pt-[env(safe-area-inset-top)] transition-[background-color,border-color,backdrop-filter] duration-500 ${
-          scrolled && !open ? "border-b border-line bg-paper/80 backdrop-blur-md" : "border-b border-transparent"
+        data-env-flip
+        className={`fixed inset-x-0 top-0 z-[70] pt-[env(safe-area-inset-top)] text-ink transition-[background-color,border-color] duration-500 ${
+          scrolled && !open ? "border-b border-line bg-paper/95" : "border-b border-transparent"
         }`}
       >
         <div className="gutter flex h-16 items-center justify-between gap-4 md:h-[72px]">

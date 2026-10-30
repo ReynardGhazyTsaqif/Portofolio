@@ -74,6 +74,7 @@ Tanpa webhook, perubahan di Sanity muncul di situs dalam beberapa menit (cache).
 src/app/[lang]/        halaman per bahasa (root layout ada di sini)
 src/app/api/revalidate webhook Sanity
 src/components/hero/   hero Maninjau: scene.ts (bentuk & palet), renderer.ts (shader), handwriting.ts
+src/components/environment/  latar seluruh situs: world.ts (dasar danau & jalur), camera.ts (kamera & kunci per kedalaman), renderer.ts (WebGL2)
 src/components/        home, about, work, playground, motion (animasi), site (navbar, footer, dll.)
 src/i18n/              kamus EN/ID dan pemilihan bahasa
 src/lib/sanity/        client, query (di-cache), tipe
@@ -87,3 +88,6 @@ studio/                Sanity Studio dan migrasi
 - Jangan pakai kelas Tailwind `scale-*`/`translate-*` pada elemen yang dianimasikan GSAP: Tailwind 4 memakai properti CSS `scale`/`translate`, sedangkan GSAP memakai `transform`.
 - `usePathname` harus di dalam `<Suspense>` (lihat `components/motion/Pathname.tsx`), aturan dari Cache Components.
 - Setiap `generateStaticParams` harus mengembalikan minimal satu hasil (`staticSlugs()` di `lib/sanity/content.ts`).
+- Latar danau membaca halaman sendiri: section baru tidak perlu pengaturan apa pun. Section yang di-pin otomatis menjadi gerakan menyamping, dan `[data-env-plunge]` di footer menandai peralihan ke air gelap.
+- Jangan pakai `backdrop-filter` pada elemen di atas canvas: blur dihitung ulang tiap frame dan membuat scroll patah (terukur 22-34 fps dengan blur, 57-59 fps tanpa blur).
+- `terrainH` dan `TERRAIN_GLSL` di `environment/world.ts` harus selalu sama. Jika bentuk dasar danau diubah, cek lagi bahwa jalur `descend()` masih mengorbit dan berhenti di titik terendah.

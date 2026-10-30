@@ -7,9 +7,10 @@
   --paper: #f2ede3;
   --surface: #fcfbf7;
   --ink: #1d221b;
-  --muted: #676b60;
-  --line: #dcd4c4;
-  --moss: #46663f;
+  --muted: #484c43;
+  /* translucent so hairlines hold up on every shade of the water behind them */
+  --line: rgb(29 34 27 / 0.15);
+  --moss: #365232;
   --on-moss: #fcfbf7;
   --gutter: clamp(16px, 4vw, 64px);
   /* Hero static scene; keep in sync with PALETTES in components/hero/scene.ts */
@@ -31,8 +32,8 @@
   --paper: #121511;
   --surface: #1a1e18;
   --ink: #ebe6da;
-  --muted: #9fa496;
-  --line: #2d3329;
+  --muted: #a4a99b;
+  --line: rgb(235 230 218 / 0.14);
   --moss: #9dbf8f;
   --on-moss: #121511;
   --hero-sky-top: #0b100e;
@@ -175,6 +176,38 @@
 .rv-line-mask {
   padding-block: 0.06em 0.2em;
   margin-block: -0.06em -0.2em;
+}
+
+/*
+ * The lake behind the page. With no WebGL, reduced motion or save-data the page keeps these flat colours and a
+ * contour-ring floor; once the canvas draws its first frame, data-env="on" clears them so the water shows through.
+ */
+.env-plunge {
+  background: linear-gradient(to bottom, var(--paper), #93a89e 45%, #2c3a32 78%, #121511);
+}
+.env-floor {
+  background-color: var(--paper);
+  background-image: repeating-radial-gradient(circle at 78% 40%, transparent 0 34px, rgb(235 230 218 / 0.05) 34px 35px);
+}
+.env-veil {
+  background: var(--surface);
+}
+.dark .env-plunge {
+  background: none;
+}
+[data-env="on"] body,
+[data-env="on"] .env-plunge {
+  background: none;
+}
+[data-env="on"] .env-floor {
+  background: none;
+}
+[data-env="on"] .env-veil {
+  background: none;
+  border-color: transparent;
+}
+.env-gauge-mark {
+  top: calc(var(--depth, 0) * 100%);
 }
 
 /* Lenis */

@@ -1,10 +1,12 @@
+import { WAVE_GLSL } from "@/components/environment/world";
 import { REFLECTION_AXIS, RIDGES, ROCKS, WORLD, type Palette } from "./scene";
 
 /*
  * One full-screen fragment shader draws the whole picture: sky, sun/moon, four caldera ridges and mist
  * above the water line; below it a calm lake with soft ripples, a glitter path under the sun and the
  * reflection of the handwritten name; shore rocks in front. Everything is procedural, so it stays sharp
- * at any size and costs one draw call per frame.
+ * at any size and costs one draw call per frame. Below the water line the canvas is see-through: scrolling
+ * lifts that line up the screen, and the lake from below (components/environment) shows from behind it.
  */
 
 const VERT = `
@@ -39,12 +41,15 @@ uniform float uNight;
 uniform sampler2D uName;
 uniform vec4 uNameRect;       // world x, y, w, h of the name texture
 uniform float uNameAlpha;
+uniform float uWaterline;     // CSS pixels from the top of the hero
+uniform float uPx;            // canvas pixels per CSS pixel
 
 const float TAU = 6.2831853;
 const float W = ${WORLD.w.toFixed(1)};
 const float H = ${WORLD.h.toFixed(1)};
 const float HORIZON = ${WORLD.horizon.toFixed(1)};
 const float AXIS = ${REFLECTION_AXIS.toFixed(1)};
+${WAVE_GLSL}
 
 float shoreY(float x) {
   return HORIZON + 9.0 * sin(x * 0.0061 + 1.1) + 5.0 * sin(x * 0.0173 + 2.3) + 2.5 * sin(x * 0.0419 + 0.4);
@@ -168,7 +173,11 @@ void main() {
   col = mix(col, mix(uMist, uPaper, 0.5), 0.35 * smoothstep(0.34, 0.12, fromBottom));
   col = mix(col, uPaper, fade * fade * (3.0 - 2.0 * fade));
   col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 255.0;   // dither long gradients
-  gl_FragColor = vec4(col, 1.0);
+  // the camera going under: everything past the water line is cut away, with a dark lip above the bright edge
+  float below = (uRes.y - gl_FragCoord.y) / uPx - (uWaterline + waterWave(gl_FragCoord.x / uPx, uTime));
+  col = mix(col, uRidge[3] * 0.8, 0.5 * exp(min(below, 0.0) / 5.0));
+  float a = 1.0 - smoothstep(-0.8, 0.8, below);
+  gl_FragColor = vec4(col * a, a);
 }
 `;
 
@@ -184,6 +193,9 @@ export type FrameState = {
   sun: { x: number; y: number; r: number };
   nameRect: [number, number, number, number];
   nameAlpha: number;
+  waterline: number;
+  px: number;
+  clip: [number, number]; // the band of the hero worth shading: CSS pixels from its top
 };
 
 const COLOR_UNIFORMS = {
@@ -204,7 +216,7 @@ export class HeroRenderer {
 
   static create(canvas: HTMLCanvasElement): HeroRenderer | null {
     try {
-      const gl = canvas.getContext("webgl", { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: "high-performance" });
+      const gl = canvas.getContext("webgl", { antialias: false, alpha: true, depth: false, stencil: false, powerPreference: "high-performance" });
       if (!gl || gl.isContextLost()) return null;
       // Without a GPU the shader would run on the CPU and stall the page; the static scene looks the same.
       const info = gl.getExtension("WEBGL_debug_renderer_info");
@@ -268,7 +280,7 @@ export class HeroRenderer {
     gl.enableVertexAttribArray(aPos);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-    const names = ["uRes", "uScale", "uOrigin", "uTime", "uSunPos", "uNight", "uName", "uNameRect", "uNameAlpha", "uAmp", "uFreq", "uPhase", "uMisc", "uRidge", "uRock", "uRockSeed", "uRockOffset", ...Object.keys(COLOR_UNIFORMS)];
+    const names = ["uRes", "uScale", "uOrigin", "uTime", "uSunPos", "uNight", "uName", "uNameRect", "uNameAlpha", "uAmp", "uFreq", "uPhase", "uMisc", "uRidge", "uRock", "uRockSeed", "uRockOffset", "uWaterline", "uPx", ...Object.keys(COLOR_UNIFORMS)];
     for (const n of names) this.loc[n] = gl.getUniformLocation(prog, n);
 
     // shapes never change; upload once
@@ -322,6 +334,8 @@ export class HeroRenderer {
   render(s: FrameState): boolean {
     if (!this.ready()) return false;
     const gl = this.gl, l = this.loc, p = s.palette;
+    gl.enable(gl.SCISSOR_TEST);
+    gl.scissor(0, Math.floor(this.height - s.clip[1] * s.px), this.width, Math.ceil((s.clip[1] - s.clip[0]) * s.px));
     gl.uniform2f(l.uRes, this.width, this.height);
     gl.uniform1f(l.uScale, s.scale);
     gl.uniform2f(l.uOrigin, s.originX, s.originY);
@@ -334,6 +348,8 @@ export class HeroRenderer {
     gl.uniform3f(l.uSunPos, s.sun.x, s.sun.y, s.sun.r);
     gl.uniform4fv(l.uNameRect, s.nameRect);
     gl.uniform1f(l.uNameAlpha, s.nameAlpha);
+    gl.uniform1f(l.uWaterline, s.waterline);
+    gl.uniform1f(l.uPx, s.px);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     return true;
   }

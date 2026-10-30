@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import { surfaceY } from "@/components/environment/world";
 import { handwriting } from "./handwriting";
 import { HeroRenderer } from "./renderer";
 import { NAME, REFLECTION_AXIS, RIDGES, ROCKS, ROCK_DEPTH, SUN, WORLD, paletteRGB, ridgeY, rockRadius, shoreY, viewFor, type Palette } from "./scene";
@@ -77,12 +78,13 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
   const canvas = useRef<HTMLCanvasElement>(null);
   const nameBox = useRef<HTMLDivElement>(null);
   const reflBox = useRef<HTMLDivElement>(null);
+  const staticScene = useRef<HTMLDivElement>(null);
   const nameG = useRef<SVGGElement>(null);
   const replayRef = useRef<() => void>(() => {});
 
   useGSAP(
     () => {
-      const section = root.current!, box = nameBox.current!, refl = reflBox.current!, cvs = canvas.current!;
+      const section = root.current!, box = nameBox.current!, refl = reflBox.current!, cvs = canvas.current!, still = staticScene.current!;
       const reduce = prefersReducedMotion();
       const finePointer = window.matchMedia("(pointer: fine)").matches;
       const skipIntro = reduce || introDone;
@@ -147,11 +149,13 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       // ---- frame loop: only while the hero is on screen ----
       let active = true, frames = 0, slow = 0;
       let palette = blend(st.night), paletteFor = st.night;
+      let stillUntil = Infinity;
 
       function showStaticScene() {
         renderer = null;
         cvs.style.opacity = "0";
         refl.style.opacity = "";
+        still.style.visibility = "";
       }
 
       function tick(time: number, delta: number) {
@@ -161,6 +165,10 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
         box.style.opacity = String(fade);
         if (!active || !renderer) return;
         if (renderer.lost || renderer.failed) return showStaticScene();
+        // once the water line has climbed past the top of the screen there is nothing of the hero left to draw
+        const heroH = section.clientHeight, top = st.scroll * heroH;
+        const water = surfaceY(top, heroH);
+        if (water < -24) return;
         if (nameDirty) {
           renderer.setName(nameCanvas);
           nameDirty = false;
@@ -170,6 +178,8 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
           paletteFor = st.night;
         }
         const dpr = renderer.width / section.clientWidth;
+        // the still scene would show through the cut-away water; it can go once the canvas has faded in
+        if (time > stillUntil && water < heroH) still.style.visibility = "hidden";
         // tall phone screens show little of the shore, so the rocks rise a little to stay in frame
         const lift = Math.min(130, Math.max(0, (1 - section.clientWidth / section.clientHeight) * 190));
         const drawn = renderer.render({
@@ -184,8 +194,13 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
           sun: { x: SUN.x - st.mx * 4, y: SUN.y + st.scroll * 110, r: SUN.r },
           nameRect: [nameRect[0] + nx, nameRect[1] + ny, nameRect[2], nameRect[3]],
           nameAlpha: 0.55 * fade,
+          waterline: water + top,
+          px: dpr,
+          // above the screen, or under the water line (plus room for its waves): nobody sees those pixels
+          clip: [Math.max(0, top - 120), Math.min(heroH, water + top + 24)],
         });
         if (!drawn) return; // shader still compiling: the static scene stays up
+        if (stillUntil === Infinity) stillUntil = time + 0.8;
         cvs.style.opacity = "1";
         refl.style.opacity = "0";
         // If the device can't keep up, render fewer pixels rather than drop frames.
@@ -259,6 +274,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
     <section ref={root} className="hero-scene relative h-[100svh] min-h-[600px] overflow-hidden" style={SCENE_VARS} aria-label={place}>
       <h1 className="sr-only">Reynard Ghazy Tsaqif</h1>
 
+      <div ref={staticScene} className="absolute inset-0">
       <svg className="absolute inset-0 size-full" viewBox={`0 0 ${WORLD.w} ${WORLD.h}`} preserveAspectRatio="xMidYMid slice" aria-hidden>
         <defs>
           <linearGradient id="hero-sky" x1="0" y1="0" x2="0" y2="1">
@@ -278,6 +294,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       </svg>
       {/* static fade into the page (WebGL draws its own) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-b from-transparent to-paper" aria-hidden />
+      </div>
 
       <canvas ref={canvas} className="absolute inset-0 size-full opacity-0 transition-opacity duration-700" aria-hidden />
 
@@ -309,7 +326,7 @@ export function HeroManinjau({ oneLiner, eyebrow, place, replay, scroll }: Props
       </div>
 
       <div data-hero-fade className="gutter absolute inset-x-0 bottom-[calc(84px+env(safe-area-inset-bottom))] flex items-end justify-between gap-4 text-[13px] md:bottom-[max(20px,env(safe-area-inset-bottom))]">
-        <div data-hero-in className="hero-in flex items-center gap-3 rounded-full bg-paper/70 py-1 pr-1 pl-3 backdrop-blur-sm">
+        <div data-hero-in className="hero-in flex items-center gap-3 rounded-full bg-paper/85 py-1 pr-1 pl-3">
           <span className="text-ink/80">{place}</span>
           <button type="button" onClick={() => replayRef.current()} className="rounded-full border border-line bg-paper px-3 py-1 font-semibold transition-colors hover:border-ink">
             {replay}
