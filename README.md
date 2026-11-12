@@ -75,10 +75,12 @@ src/app/[lang]/        halaman per bahasa (root layout ada di sini)
 src/app/api/revalidate webhook Sanity
 src/components/hero/   hero Maninjau: scene.ts (bentuk & palet), renderer.ts (shader), handwriting.ts
 src/components/environment/  latar seluruh situs: world.ts (dasar danau & jalur), camera.ts (kamera & kunci per kedalaman), renderer.ts (WebGL2)
+src/components/story/  cerita 3D di Home (three.js, dimuat hanya di Home): scene.ts (semua adegan), StoryWorld (canvas), StoryChapter (bab yang di-pin), progress.ts (waktu tiap adegan & caption)
 src/components/        home, about, work, playground, motion (animasi), site (navbar, footer, dll.)
 src/i18n/              kamus EN/ID dan pemilihan bahasa
 src/lib/sanity/        client, query (di-cache), tipe
 scripts/handwriting/   pembuat jalur tulisan tangan dari font Hershey Script
+scripts/globe/         pembuat titik daratan globe dari Natural Earth 1:110m (domain publik)
 studio/                Sanity Studio dan migrasi
 ```
 
@@ -91,3 +93,4 @@ studio/                Sanity Studio dan migrasi
 - Latar danau membaca halaman sendiri: section baru tidak perlu pengaturan apa pun. Section yang di-pin otomatis menjadi gerakan menyamping, dan `[data-env-plunge]` di footer menandai peralihan ke air gelap.
 - Jangan pakai `backdrop-filter` pada elemen di atas canvas: blur dihitung ulang tiap frame dan membuat scroll patah (terukur 22-34 fps dengan blur, 57-59 fps tanpa blur).
 - `terrainH` dan `TERRAIN_GLSL` di `environment/world.ts` harus selalu sama. Jika bentuk dasar danau diubah, cek lagi bahwa jalur `descend()` masih mengorbit dan berhenti di titik terendah.
+- Cerita 3D di Home: tiap adegan adalah fungsi dari progres scroll (`components/story/progress.ts`), jadi scroll mundur memutar film ke belakang. Selama canvas cerita menutupi layar, `html[data-story="cover"]` membuat latar danau berhenti menggambar, dan cerita yang mengatur warna gelap/terang navbar, tombol CV, dan caption bab penutup. Tanpa WebGL, dengan reduced motion, atau save-data, Home kembali memakai latar danau dan caption tampil berurutan tanpa pin.

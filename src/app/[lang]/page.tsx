@@ -13,6 +13,8 @@ import { WorkRail, type RailItem } from "@/components/home/WorkRail";
 import { ExperiencePreview } from "@/components/home/ExperiencePreview";
 import { NotesPreview } from "@/components/home/NotesPreview";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { StoryWorld } from "@/components/story/StoryWorld";
+import { StoryChapter } from "@/components/story/StoryChapter";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [lang, dict] = await Promise.all([getLocale(), getDictionary()]);
@@ -73,11 +75,15 @@ export default async function HomePage() {
       />
       <Statement text={home.statement} />
       <Highlights label={home.highlights.label} title={home.highlights.title} accent={home.highlights.accent} items={highlights} />
+      {/* the 3D story: lake bed -> loss surface -> data -> laptop, and into its screen for the rest of the page */}
+      <StoryWorld screen={{ title: home.work.title, accent: home.work.accent, label: home.work.label, nav: [dict.nav.home, dict.nav.about, dict.nav.work, dict.nav.notes, dict.nav.contact] }} />
+      <StoryChapter kind="converge" label={home.story.converge.label} beats={home.story.converge.beats} />
       <WorkRail items={rail} labels={home.work} allHref={localePath(lang, "/work")}>
         <SectionHead label={home.work.label} title={home.work.title} accent={home.work.accent} intro={home.work.intro} />
       </WorkRail>
       <ExperiencePreview items={experience} lang={lang} dict={dict} href={localePath(lang, "/about")} />
       <NotesPreview posts={posts} lang={lang} dict={dict} />
+      <StoryChapter kind="outro" label={home.story.outro.label} beats={home.story.outro.beats} />
     </>
   );
 }

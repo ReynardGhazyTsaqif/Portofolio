@@ -210,6 +210,45 @@
   top: calc(var(--depth, 0) * 100%);
 }
 
+/*
+ * The Home story (components/story). Once its 3D canvas is running it is the background, so the page's own
+ * fills step aside the same way they do for the lake.
+ */
+[data-story-flips] body,
+[data-story-flips] .env-plunge,
+[data-story-flips] .env-floor {
+  background: none;
+}
+/* Without motion the chapters are just their captions, one after another. */
+.story-stage {
+  display: grid;
+  gap: clamp(56px, 8vw, 96px);
+  padding-block: clamp(96px, 12vw, 170px);
+}
+/* With motion each chapter is one pinned screen; the captions take turns in it. */
+[data-motion="on"] .story-stage {
+  display: block;
+  position: relative;
+  height: 100svh;
+  padding: 0;
+}
+[data-motion="on"] .story-beat-pos {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  translate: 0 -50%;
+}
+@media (max-width: 767px) {
+  [data-motion="on"] .story-beat-pos {
+    top: auto;
+    bottom: calc(96px + env(safe-area-inset-bottom));
+    translate: none;
+  }
+}
+[data-motion="on"] .story-part {
+  visibility: hidden;
+}
+
 /* Lenis */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }

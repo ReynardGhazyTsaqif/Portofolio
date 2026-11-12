@@ -163,10 +163,14 @@ export function LakeEnvironment() {
       snap = false;
       nudge += (nudgeTo - nudge) * (1 - Math.exp(-dt * 1.6));
 
+      // the Home story (components/story) draws over the lake for most of that page and owns these colours there
+      const story = root.dataset.story === "cover";
       const midpoint = (layout.plungeContent + layout.floorContent) / 2;
-      for (const f of flips) {
-        const want = content + f.y > midpoint;
-        if (f.el.classList.contains("dark") !== want) f.el.classList.toggle("dark", want);
+      if (root.dataset.storyFlips === undefined) {
+        for (const f of flips) {
+          const want = content + f.y > midpoint;
+          if (f.el.classList.contains("dark") !== want) f.el.classList.toggle("dark", want);
+        }
       }
 
       const depth = Math.round(Math.min(BED_DEPTH, Math.max(0, path[Math.round(Math.min(1, head) * (path.length - 1))].depth * Math.min(1, head / 0.05))));
@@ -175,12 +179,12 @@ export function LakeEnvironment() {
         reading.current.textContent = `−${depth} m`;
         gauge.current.style.setProperty("--depth", String(depth / BED_DEPTH));
       }
-      if (gauge.current) gauge.current.style.opacity = surface < layout.vh * 0.5 ? "1" : "0";
+      if (gauge.current) gauge.current.style.opacity = surface < layout.vh * 0.5 && !story ? "1" : "0";
 
       if (!renderer) return;
       if (renderer.lost || renderer.failed) return turnOff();
-      // the hero fully covers the canvas until the water line comes into view
-      if (surface > layout.vh + 20) return;
+      // the hero fully covers the canvas until the water line comes into view; the story covers it later on
+      if (surface > layout.vh + 20 || story) return;
 
       // settle to half rate when nothing is moving: drifting light doesn't need more, and the battery notices
       if (scroll !== lastScroll || Math.abs(target - head) > 1e-4) idleFor = 0;

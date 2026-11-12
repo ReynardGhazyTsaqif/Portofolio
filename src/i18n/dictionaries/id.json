@@ -48,6 +48,48 @@
         }
       ]
     },
+    "story": {
+      "converge": {
+        "label": "Dari model ke layar",
+        "beats": [
+          {
+            "label": "01 · Model",
+            "title": "Model yang",
+            "accent": "andal",
+            "body": "Training ibarat bola yang menggelinding turun di permukaan error. Tugas saya memastikan bola itu berhenti di tempat yang tepat, bukan sekadar yang terdekat."
+          },
+          {
+            "label": "02 · Data",
+            "title": "Data yang",
+            "accent": "bersih",
+            "body": "Model hanya sebaik data yang dipelajarinya: ribuan titik, dirapikan dan diperiksa sampai benar-benar punya arti."
+          },
+          {
+            "label": "03 · Antarmuka",
+            "title": "Antarmuka yang",
+            "accent": "ingin dipakai",
+            "body": "Semua itu tidak berarti sebelum sampai ke layar. Langkah terakhir itulah yang paling saya pedulikan."
+          }
+        ]
+      },
+      "outro": {
+        "label": "Ke mana semuanya sampai",
+        "beats": [
+          {
+            "label": "04 · Asal",
+            "title": "Dibuat di",
+            "accent": "Padang",
+            "body": "Dari laboratorium Informatika Universitas Andalas, Sumatra Barat, beberapa jam dari Danau Maninjau."
+          },
+          {
+            "label": "05 · Jangkauan",
+            "title": "Sampai ke",
+            "accent": "layar mana pun",
+            "body": "Terbuka untuk kerja remote dan tim di mana pun di dunia."
+          }
+        ]
+      }
+    },
     "work": {
       "label": "Karya pilihan",
       "title": "Yang sudah saya",

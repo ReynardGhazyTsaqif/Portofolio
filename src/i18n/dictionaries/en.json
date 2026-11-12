@@ -48,6 +48,48 @@
         }
       ]
     },
+    "story": {
+      "converge": {
+        "label": "From model to screen",
+        "beats": [
+          {
+            "label": "01 · The model",
+            "title": "A model that",
+            "accent": "holds up",
+            "body": "Training is a ball rolling downhill on the error surface. My job is making sure it settles in the right place, not just the nearest one."
+          },
+          {
+            "label": "02 · The data",
+            "title": "Data that is",
+            "accent": "clean",
+            "body": "A model is only as good as what it learns from: thousands of points, sorted and checked until they actually mean something."
+          },
+          {
+            "label": "03 · The interface",
+            "title": "An interface people",
+            "accent": "want to use",
+            "body": "None of it matters until it reaches a screen. That last step is the part I care about most."
+          }
+        ]
+      },
+      "outro": {
+        "label": "Where it ends up",
+        "beats": [
+          {
+            "label": "04 · Origin",
+            "title": "Built in",
+            "accent": "Padang",
+            "body": "From the Informatics lab at Universitas Andalas, West Sumatra, a few hours from Lake Maninjau."
+          },
+          {
+            "label": "05 · Reach",
+            "title": "Shipped to",
+            "accent": "any screen",
+            "body": "Open to remote work and teams anywhere in the world."
+          }
+        ]
+      }
+    },
     "work": {
       "label": "Selected work",
       "title": "Things I've",
